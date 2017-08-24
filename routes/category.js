@@ -6,8 +6,18 @@ var categoryCtrl = require('../controllers/category.js');
 /* GET home page. */
 
 api.route('/faker')
-	.get(categoryCtrl.fakerCategory)
+	.get((req, res, next) => {
+		categoryCtrl.fakerCategory(req, res).then((retvalor) => {
+			res.status(200).json(retvalor)
+		})
+	})
 
+api.route('/faker/:recordTotal')
+	.get((req, res, next) => {
+		categoryCtrl.fakerCategory(req, res).then((retvalor) => {
+			res.status(200).json(retvalor)
+		})
+	})
 
 api.route('/:categoryId')
 	// .get(categoryCtrl.getCategory)

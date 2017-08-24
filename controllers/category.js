@@ -36,7 +36,8 @@ function fakerCategory(req, res, next) {
 	const faker = require('faker');
 
 	faker.locate = "es"
-  var total = 10; //req.params.num;
+  // console.log();
+  var total = req.params.recordTotal==null?20:req.params.recordTotal;
   var messageShow = `${total} category generate`;
   var _categoryLine, _categoryName
   var listaCategories = [];
@@ -47,7 +48,7 @@ function fakerCategory(req, res, next) {
   }
   return models.category.bulkCreate(listaCategories)
     .then(function(task) {
-      return {category: messageShow}
+      return {category: messageShow, message: 'Indique el numero de registros con :/category/faker/200'}
     	// res.status(200).send({message: messageShow})
   }).catch((err)=> {
       return {category: {error: `Error creando una category: [${err}]`} }
