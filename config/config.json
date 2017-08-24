@@ -1,0 +1,27 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "db/db.development.sqlite"
+  },
+  "development_pg": {
+    "username": "pedroadm",
+    "password": "123456",
+    "database": "recipebookdb",
+    "host": "localhost",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

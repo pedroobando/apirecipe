@@ -1,0 +1,11 @@
+Receta
+nombre
+categoria (entrada - primer planto - segundo planto postre dulce)
+tipo plato (pasta - sopa - postre)
+tipo codinado ( frito - asado - horneado)
+dificultad ( sencillo - media - alto)
+porciones ( 2 - 3 - 5)
+incredientes (texto)
+preparacion (texto)
+comentarios o trucos (texto)
+imagenes receta
