@@ -1,20 +1,13 @@
 "use strict"
 
 module.exports = function(sequelize, DataTypes) {
-  var product = sequelize.define('product', {
+  var ingredient = sequelize.define('ingredient', {
     // idProduct: {
     //   allowNull: false,
     //   autoIncrement: true,
     //   primaryKey: true,
     //   type: DataTypes.INTEGER
     // },
-    code: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-        notNull: true
-      }
-    },
     name: {
       type: DataTypes.STRING,
       validate: {
@@ -22,22 +15,24 @@ module.exports = function(sequelize, DataTypes) {
         notNull: true
       }
     },
-    price: DataTypes.DOUBLE,
+    quantity: {
+      type: DataTypes.DOUBLE,
+      defaultValue: 0
+    },
+    price: {
+      type: DataTypes.DOUBLE,
+      defaultValue: 0
+    },
     active: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }
   });
 
-  product.associate = function(models) {
+  ingredient.associate = function(models) {
     // associations can be defined here
-    product.belongsTo(models.category, {
-      onDelete: "CASCADE",
-      foreignKey: {
-        allowNull: false
-      }
-    });
+    ingredient.belongsTo(models.measure);
   }
   
-  return product;
+  return ingredient;
 };

@@ -20,9 +20,6 @@ module.exports = function recipef(sequelize, DataTypes) {
     	type: DataTypes.INTEGER,
     	defaultValue: 0
     },
-    ingredient: {
-    	type: DataTypes.TEXT
-    },
     preparation: {
     	type: DataTypes.TEXT
     },
@@ -34,7 +31,7 @@ module.exports = function recipef(sequelize, DataTypes) {
 
   recipe.associate = function(models) {
     // associations can be defined here
-    recipe.hasMany(models.recipeCategory);        
+    recipe.hasMany(models.recipeCategory);
   }
 
   return recipe;

@@ -7,9 +7,8 @@ function getCategory(req, res, next) {
 }
 
 function getCategories(req, res, next) {
-  var theOrden = req.query.order
+  var theOrden = req.query.order==null?'NotOrder':req.query.order.toUpperCase()
   var _activeOnly = req.query.active
-  // console.log(theOrden);
   if (theOrden == 'DESC' || theOrden == 'ASC') {
     return models.category.findAll({ order: [ ['name', theOrden]] }).then(categoriesAll => {
       return _clearCategories(categoriesAll)
