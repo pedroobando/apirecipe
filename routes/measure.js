@@ -4,17 +4,28 @@ var express = require('express');
 var api = express.Router();
 var measureCtrl = require('../controllers/measure');
 
+
 api.route('/faker')
 	.get((req, res, next) => {
 		measureCtrl.faker(req, res).then((retvalor) => {
-			res.status(200).json(retvalor)
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 
 api.route('/faker/:recordTotal')
 	.get((req, res, next) => {
 		measureCtrl.faker(req, res).then((retvalor) => {
-			res.status(200).json(retvalor)
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+			// res.status(200).json(retvalor)
+		})
+	})
+
+api.route('/:measureId/active')
+	.patch((req, res, next) => {
+		measureCtrl.active(req, res).then((retvalor) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch(err=>{
+			console.log(err);
 		})
 	})
 
@@ -22,31 +33,28 @@ api.route('/:measureId')
 	// .get(measureCtrl.getCategory)
 	.get((req, res, next) => {
 			measureCtrl.getOne(req, res).then((retvalor) => {
-				if (retvalor.data!=null) {
-					res.status(200).json(retvalor);
-				} else {
-					res.status(500).json({measure:'Not Found'})
-				}
+				// console.log(retvalor.data);
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			}).catch((err)=> {
 				console.log(err);
 			})
 	})
 	.put((req, res, next) => {
-			measureCtrl.updateCategory(req, res).then((retvalor) => {
+			measureCtrl.update(req, res).then((retvalor) => {
 				// console.log(retvalor);
 				if (retvalor!=null) {
-					res.status(200).json(retvalor);
+					res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 				} else {
-					res.status(500).json(retvalor);
+					res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 				}
 			})
 	})
 	.delete((req, res, next) => {
-		measureCtrl.deleteCategory(req, res).then((retvalor) => {
+		measureCtrl.remove(req, res).then((retvalor) => {
 			if (retvalor!=null) {
-				res.status(200).json(retvalor)
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			} else {
-				res.status(500).json(retvalor)
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			}
 		})
 	})
@@ -54,17 +62,17 @@ api.route('/:measureId')
 api.route('/')
 	.get((req, res, next) => {
 		measureCtrl.getAll(req, res).then((retvalor)=>{
-			res.status(200).json(retvalor);
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {
 			// console.log(err);
-			res.status(500).json(retvalor);
+			res.status(400).json(retvalor);
 		})
 	})
 	.post((req, res, next) => {
-			measureCtrl.saveCategory(req, res).then((retvalor) => {
-				res.status(200).json(retvalor);
+			measureCtrl.save(req, res).then((retvalor) => {
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {
-			res.status(500).json(retvalor);
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 

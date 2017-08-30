@@ -52,8 +52,6 @@ function getAll(req, res, next) {
         })
       }
     }).catch((err) =>{
-      // console.log(err[0]);
-      // return _errorObject(err, 'getAll')
       return _returnJson(500, 'Error On Server getAll - Category', err)
     });
 }
@@ -89,7 +87,6 @@ function active(req, res, next) {
   })
 }
 
-
 function update(req, res, next) {
   var IdCat = req.params.categoryId;
   return models.category.update({
@@ -114,18 +111,14 @@ function remove(req, res) {
     }
   }).then((affectedRows)=>{
   	if (affectedRows>=1) {
-      return _returnJson(204,`Category DELETE ID:${the_Id}`, null)
-      // return {category: {message: 'Ok', rows: affectedRows}}
+      return _returnJson(202,`Category DELETE ID:${the_Id}`, null)
   	} else {
       return _returnJson(404,`Category NOT FOUND ID:${the_Id}`, null)
-      // return {category: {message: 'Not found', rows: affectedRows}}
   	}
   }).catch((err)=>{
-    // return _errorCategory(err, 'deleteCategory')
     return _returnJson(500, 'Error On Server remove - Category', err)
   })
 }
-
 
 function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
@@ -139,28 +132,9 @@ function _getOne(Id, onfunction) {
       return _returnJson(404, 'NOT FOUND - Category', _clearObject({id:0,name:'',active:false}))
     }
   }).catch((err) => {
-    // return _errorObject(err, '_getOnes')
-    //console.log(err);
     return _returnJson(500, `Error On Server _getOne -${onfunction} - Category`, err)
   });
 }
-
-
-// function _getOne(Id, onfunction) {
-//   if (Id==null) { 
-//     return _clearObject({id:0,name:'',active:false})
-//   }
-//   return models.category.findById(Id).then((theObject) => {
-//     if (theObject1) {
-//       return _clearObject(theObject)
-//     } else {
-//       return _clearObject({id:0,name:'',active:false})
-//     }
-//   }).catch((err) => {
-//     return new Error(_errorObject(err, `_getOne - ${onfunction}`)) 
-//     // return _returnJson(500, 'Error On Server getOne - Category', err)
-//   });
-// }
 
 function _clearObjectAll(_objectAll) {
   var objectAll = []
@@ -171,7 +145,9 @@ function _clearObjectAll(_objectAll) {
 }
 
 function _clearObject(_object) {
-  return {id: _object.id, name: _object.name, active: _object.active}
+  return {
+    id: _object.id, name: _object.name, active: _object.active
+  }
 }
 
 function _errorObject(_err, onfunction) {
@@ -182,7 +158,9 @@ function _errorObject(_err, onfunction) {
 }
 
 function _returnJson(_statusCode, _message, _data) {
-  return { statusCode:_statusCode, message:_message, data:_data }
+  return { 
+    statusCode:_statusCode, message:_message, data:_data 
+  }
 }
 
 module.exports = {

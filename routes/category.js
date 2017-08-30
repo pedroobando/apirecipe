@@ -1,4 +1,5 @@
 'use strict';
+
 var express = require('express');
 var api = express.Router();
 var categoryCtrl = require('../controllers/category');
@@ -8,9 +9,7 @@ var categoryCtrl = require('../controllers/category');
 api.route('/faker')
 	.get((req, res, next) => {
 		categoryCtrl.faker(req, res).then((retvalor) => {
-			console.log(retvalor);
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
-			// res.status(200).json(retvalor)
 		})
 	})
 
