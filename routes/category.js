@@ -1,7 +1,7 @@
 'use strict';
 var express = require('express');
 var api = express.Router();
-var categoryCtrl = require('../controllers/category.js');
+var categoryCtrl = require('../controllers/category');
 
 /* GET home page. */
 
@@ -15,6 +15,13 @@ api.route('/faker')
 api.route('/faker/:recordTotal')
 	.get((req, res, next) => {
 		categoryCtrl.fakerCategory(req, res).then((retvalor) => {
+			res.status(200).json(retvalor)
+		})
+	})
+
+api.route('active/:categoryId')
+	.patch((req, res, next) => {
+		categoryCtrl.active(req, res).then((retvalor) => {
 			res.status(200).json(retvalor)
 		})
 	})

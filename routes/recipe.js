@@ -1,7 +1,7 @@
 'use strict';
 var express = require('express');
 var api = express.Router();
-var recipeCtrl = require('../controllers/recipe.js');
+var recipeCtrl = require('../controllers/recipe');
 
 api.route('/faker')
 	.get((req, res, next) => {

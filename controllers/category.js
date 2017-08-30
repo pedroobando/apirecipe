@@ -31,6 +31,21 @@ function saveCategory(req, res) {
   });
 }
 
+function active(req, res, next) {
+  var IdCat = req.params.categoryId;
+  return models.category.update({
+    active: req.body.active
+  }, {
+    where: {
+      id: IdCat
+    }
+  }).then((affectedRows)=>{
+    return _getCategory(IdCat)
+  }).catch((err)=>{
+    return _errorCategory(err, 'active')
+  })
+}
+
 function fakerCategory(req, res, next) {
 	const faker = require('faker');
 
