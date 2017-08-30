@@ -22,10 +22,12 @@ api.route('/faker/:recordTotal')
 		})
 	})
 
-api.route('active/:categoryId')
+api.route('/:categoryId/active')
 	.patch((req, res, next) => {
 		categoryCtrl.active(req, res).then((retvalor) => {
-			res.status(200).json(retvalor)
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch(err=>{
+			console.log(err);
 		})
 	})
 

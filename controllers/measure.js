@@ -1,12 +1,9 @@
-'use strict';
+'use strict'
 
 const models = require('../models');
 
 function faker(req, res, next) {
 	const faker = require('faker');
-
-	faker.locate = "es"
-  // console.log();
   var total = req.params.recordTotal==null?20:req.params.recordTotal;
   var messageShow = `${total} measure generate`;
   var listObjects = [];
