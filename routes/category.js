@@ -7,15 +7,18 @@ var categoryCtrl = require('../controllers/category');
 
 api.route('/faker')
 	.get((req, res, next) => {
-		categoryCtrl.fakerCategory(req, res).then((retvalor) => {
-			res.status(200).json(retvalor)
+		categoryCtrl.faker(req, res).then((retvalor) => {
+			console.log(retvalor);
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+			// res.status(200).json(retvalor)
 		})
 	})
 
 api.route('/faker/:recordTotal')
 	.get((req, res, next) => {
-		categoryCtrl.fakerCategory(req, res).then((retvalor) => {
-			res.status(200).json(retvalor)
+		categoryCtrl.faker(req, res).then((retvalor) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+			// res.status(200).json(retvalor)
 		})
 	})
 
@@ -29,18 +32,15 @@ api.route('active/:categoryId')
 api.route('/:categoryId')
 	// .get(categoryCtrl.getCategory)
 	.get((req, res, next) => {
-			categoryCtrl.getCategory(req, res).then((retvalor) => {
-				if (retvalor.category!=null) {
-					res.status(200).json(retvalor);
-				} else {
-					res.status(404).json({category:'Not Found'})
-				}
+			categoryCtrl.getOne(req, res).then((retvalor) => {
+				// console.log(retvalor.data);
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			}).catch((err)=> {
 				console.log(err);
 			})
 	})
 	.put((req, res, next) => {
-			categoryCtrl.updateCategory(req, res).then((retvalor) => {
+			categoryCtrl.update(req, res).then((retvalor) => {
 				// console.log(retvalor);
 				if (retvalor!=null) {
 					res.status(200).json(retvalor);
@@ -50,7 +50,7 @@ api.route('/:categoryId')
 			})
 	})
 	.delete((req, res, next) => {
-		categoryCtrl.deleteCategory(req, res).then((retvalor) => {
+		categoryCtrl.remove(req, res).then((retvalor) => {
 			if (retvalor!=null) {
 				res.status(200).json(retvalor)
 			} else {
@@ -62,18 +62,18 @@ api.route('/:categoryId')
 
 api.route('/')
 	.get((req, res, next) => {
-		categoryCtrl.getCategories(req, res).then((retvalor)=>{
-			res.status(200).json(retvalor);
+		categoryCtrl.getAll(req, res).then((retvalor)=>{
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {
 			// console.log(err);
-			res.status(500).json(retvalor);
+			res.status(400).json(retvalor);
 		})
 	})
 	.post((req, res, next) => {
-			categoryCtrl.saveCategory(req, res).then((retvalor) => {
+			categoryCtrl.save(req, res).then((retvalor) => {
 				res.status(200).json(retvalor);
 		}).catch((err) => {
-			res.status(500).json(retvalor);
+			res.status(400).json(retvalor);
 		})
 	})
 
