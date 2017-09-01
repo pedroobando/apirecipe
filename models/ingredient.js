@@ -10,10 +10,7 @@ module.exports = function(sequelize, DataTypes) {
     // },
     name: {
       type: DataTypes.STRING,
-      validate: {
-        notEmpty: true,
-        notNull: true
-      }
+      allowNull: false
     },
     quantity: {
       type: DataTypes.DOUBLE,

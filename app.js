@@ -12,6 +12,8 @@ var users = require('./routes/users');
 var recipe = require('./routes/recipe');
 var measure = require('./routes/measure');
 var category = require('./routes/category');
+var ingredient = require('./routes/ingredient');
+
 
 var app = express();
 
@@ -32,6 +34,7 @@ app.use('/users', users);
 app.use('/recipe', recipe);
 app.use('/measure', measure);
 app.use('/category', category);
+app.use('/ingredient', ingredient);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,3 +55,4 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
