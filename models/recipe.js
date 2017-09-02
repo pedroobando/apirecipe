@@ -31,7 +31,8 @@ module.exports = function recipef(sequelize, DataTypes) {
 
   recipe.associate = function(models) {
     // associations can be defined here
-    recipe.hasMany(models.recipeCategory);
+    recipe.hasMany(models.recipeCategory),
+    recipe.hasMany(models.recipeIngredient)
   }
 
   return recipe;
