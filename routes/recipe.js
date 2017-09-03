@@ -4,69 +4,89 @@ var express = require('express')
 var api = express.Router()
 var recipeCtrl = require('../controllers/recipe')
 
+
 api.route('/faker')
 	.get((req, res, next) => {
 		recipeCtrl.faker(req, res).then((retvalor) => {
-			res.status(200).json(retvalor)
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 
 api.route('/faker/:recordTotal')
 	.get((req, res, next) => {
 		recipeCtrl.faker(req, res).then((retvalor) => {
-			res.status(200).json(retvalor)
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 
-api.route('/:recipeId')
-	// .get(recipeCtrl.getCategory)
+api.route('/:keyId/active')
+	.patch((req, res, next) => {
+		recipeCtrl.active(req, res).then((retvalor) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch(err => {
+			console.log(err)
+		})
+	})
+
+api.route('/:keyId')
 	.get((req, res, next) => {
-			recipeCtrl.getRecipe(req, res).then((retvalor) => {
-				if (retvalor.recipe!=null) {
-					res.status(200).json(retvalor)
-				} else {
-					res.status(404).json({recipe:'Not Found'})
-				}
+			recipeCtrl.getOne(req, res).then((retvalor) => {
+				// console.log(retvalor.data);
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			}).catch((err)=> {
-				console.log(err)
+				console.log(err);
 			})
 	})
 	.put((req, res, next) => {
-			recipeCtrl.updateCategory(req, res).then((retvalor) => {
-				// console.log(retvalor)
+			recipeCtrl.update(req, res).then((retvalor) => {
 				if (retvalor!=null) {
-					res.status(200).json(retvalor)
+					res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 				} else {
-					res.status(500).json(retvalor)
+					res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 				}
 			})
 	})
 	.delete((req, res, next) => {
-		recipeCtrl.deleteCategory(req, res).then((retvalor) => {
+		recipeCtrl.remove(req, res).then((retvalor) => {
 			if (retvalor!=null) {
-				res.status(200).json(retvalor)
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			} else {
-				res.status(500).json(retvalor)
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			}
 		})
 	})
-	// .delete(recipeCtrl.deleteCategory)
 
 api.route('/')
 	.get((req, res, next) => {
-		recipeCtrl.getRecipes(req, res).then((retvalor)=>{
-			res.status(200).json(retvalor)
+		recipeCtrl.getAll(req, res).then((retvalor)=>{
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {
-			// console.log(err)
-			res.status(500).json(retvalor)
+			res.status(400).json(retvalor);
 		})
 	})
 	.post((req, res, next) => {
-			recipeCtrl.saveCategory(req, res).then((retvalor) => {
-				res.status(200).json(retvalor)
+			recipeCtrl.save(req, res).then((retvalor) => {
+				res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {
-			res.status(500).json(retvalor)
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 
-module.exports = api
+
+api.route('/:keyId/category')
+	.get((req, res, next) => {
+		recipeCtrl.getAll(req, res).then((retvalor)=>{
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch((err) => {
+			res.status(400).json(retvalor);
+		})
+	})
+	.post((req, res, next) => {
+		recipeCtrl.saveCategory(req, res).then((retvalor) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch((err) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		})
+	})
+
+module.exports = api;

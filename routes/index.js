@@ -6,6 +6,7 @@ var ctrlDatabase = require('../controllers/database')
 var categoryCtrl = require('../controllers/category')
 var measureCtrl = require('../controllers/measure')
 var ingredientCtrl = require('../controllers/ingredient')
+var recipeCtrl = require('../controllers/recipe')
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -42,11 +43,20 @@ router.route('/createdemo')
 			console.log(err)
 		})
 
+		req.params.recordTotal=50
+		recipeCtrl.faker(req, res).then((retvalor) => {
+			rowcreated.recipe = retvalor.data
+			// res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch(err => {
+			console.log(err)
+		})		
+
 		res.status(200).json({
 			message: 'Fueron creados todos los datos',
 			data_category: rowcreated.category,
 			data_measure: rowcreated.measure,
-			data_ingredient: rowcreated.ingredient
+			data_ingredient: rowcreated.ingredient,
+			data_recipe: rowcreated.recipe
 		})
 	})
 

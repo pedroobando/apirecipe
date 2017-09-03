@@ -1,7 +1,7 @@
 'use strict'
 
 const models = require('../models')
-const randomize = require('randomatic')
+const randomInt = require('random-int')
 
 function faker(req, res, next) {
   const faker = require('faker')
@@ -11,13 +11,10 @@ function faker(req, res, next) {
   for (var i = 0; i < total; i++) {
      listObjects.push({
       name: faker.commerce.productName(),
-      difficulty: randomize('0', 1),
-      price: randomize('0', 1),
+      difficulty: randomInt(1, 5),
+      portion: randomInt(3, 10),
       preparation: faker.lorem.paragraph(),
       active: faker.random.boolean()
-
-      // categoryId: randomize('0', 2)
-      // categoryId: randomize('0', 2)
      })
   }
   // console.log(listObjects)
@@ -44,20 +41,20 @@ function getAll(req, res, next) {
       offset = limit * (page - 1)
       if (order == 'DESC' || order == 'ASC') {
         return models.recipe.findAll({
-          attributes: ['id', 'name', 'price', 'quantity', 'active', 'measureId'],
+          attributes: ['id', 'name', 'difficulty', 'portion', 'preparation','active'],
           limit: limit,
           offset: offset,
           order: [['name', order]],
-          include: [ models.measure ]
+          include: [ 'categories' ]
         }).then((objectAll) => {
            return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll,false))
         })
       } else {
         return models.recipe.findAll({
-          attributes: ['id', 'name', 'price', 'quantity', 'active', 'measureId'],
+          attributes: ['id', 'name', 'difficulty', 'portion', 'preparation','active'],
           limit: limit,
           offset: offset,
-          include: [ models.measure ]
+          include: [ 'categories' ]
         }).then((objectAll) => {
           return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll, false))
         })
@@ -70,12 +67,13 @@ function getAll(req, res, next) {
 function save(req, res) {
   return models.recipe.create({
     name: req.body.name,
-    price: req.body.price,
-    quantity: req.body.quantity,
+    difficulty: req.body.difficulty,
+    portion: req.body.portion,
+    preparation: req.body.preparation,
     active: req.body.active,
-    measureId: req.body.measureId
+    // measureId: req.body.measureId
   }).then(function(theObject) {
-    return _returnJson(201,`Recipe name ${theObject.name}`, _clearObjectSingle(theObject))
+    return _returnJson(201,`Recipe name ${theObject.name}`, _clearObject(theObject))
   }).catch((err) => {
     console.log(err)
     return _returnJson(500, 'Error On Server save - Recipe', err)
@@ -136,6 +134,60 @@ function remove(req, res) {
   })
 }
 
+/*
+// Categorias de Recetas
+*/
+
+function saveCategory(req, res) {
+  var idKey = req.params.keyId
+  console.log(idKey);
+  return models.recipeCategory.create({
+    recipeId: idKey,
+    categoryId: req.body.categoryId
+  }).then(function(theObject) {
+    return _returnJson(201,`Category on Recipe ${theObject.categoryId}`, _clearObject(theObject))
+  }).catch((err) => {
+    console.log(err)
+    return _returnJson(500, 'Error On Server save - recipeCategory', err)
+  })
+}
+
+
+function updateCategory(req, res, next) {
+  var idKey = req.params.keyId
+  return models.recipe.update({
+    recipeId: req.body.recipeId,
+    categoryId: req.body.categoryId
+  }, {
+    where: {
+      id: idKey
+    }
+  }).then((affectedRows)=>{
+    return _getOne(idKey)
+  }).catch((err)=>{
+    return _returnJson(500, 'Error On Server update - Recipe', err)
+  })
+}
+
+function removeCategory(req, res) {
+  var the_Id = req.params.keyId
+  return models.recipe.destroy({
+    where: {
+      id: the_Id
+    }
+  }).then((affectedRows)=>{
+    if (affectedRows>=1) {
+      return _returnJson(202,`Recipe DELETE ID:${the_Id}`, null)
+    } else {
+      return _returnJson(404,`Recipe NOT FOUND ID:${the_Id}`, null)
+    }
+  }).catch((err)=>{
+    console.log(err)
+    return _returnJson(500, 'Error On Server remove - Recipe', err)
+  })
+}
+
+
 
 function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
@@ -144,7 +196,7 @@ function _getOne(Id, onfunction) {
   }
   // return models.recipe.findById(Id).then((theObject) => {
   return models.recipe.findOne({
-    where: {id: Id}, include: [ models.measure ]}).then((theObject) => {
+    where: {id: Id}, include: [ 'categories' ]}).then((theObject) => {
       if ((theObject!=null)) {
         return _returnJson(200,`Recipe name ${theObject.name}`, _clearObject(theObject))
       } else {
@@ -156,37 +208,45 @@ function _getOne(Id, onfunction) {
   })
 }
 
-function _clearObjectAll(_objectAll,_single) {
-  //_single = _single==null?false:_single
+function _clearObjectAll(_objectAll) {
   var objectAll = []
-  if (_single) {
-    _objectAll.forEach((tObject) => {
-      objectAll.push(_clearObjectSingle(tObject))
-    })
-  } else {
-    _objectAll.forEach((tObject) => {
-      objectAll.push(_clearObject(tObject))
-    })
-  }
+  _objectAll.forEach((tObject) => {
+    objectAll.push(_clearObject(tObject))
+  })
   return objectAll
 }
 
-function _clearObjectSingle(_object) {
-  return {
-    id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId
-  }
-}
 
 function _clearObject(_object) {
-// return {id: _recipe.id, name: _recipe.name, difficulty: _recipe.difficulty, portion:_recipe.portion, preparation: _recipe.preparation, active: _recipe.active}  
+  var categoryAll = []
+  // categoryAll = _clearObjectCategory(_object.id)
+  
   return {
-    id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId, measure: {id:_object.measure.id, name:_object.measure.name, active:_object.measure.active}
+    id: _object.id, name: _object.name, difficulty: _object.difficulty, portion:_object.portion, preparation: _object.preparation, active: _object.active,
+    categories: categoryAll
   }
+  console.log(`categoryAll ${categoryAll}`);
+}
+
+function _clearObjectCategory(_recipeId) {
+  // var _tObjectCatAllR = [], canaima = 0;
+  let _tObjectCatAll=[]
+  var nuevoPapel
+  nuevoPapel = models.recipeCategory.findAll({where: {recipeId: _recipeId}, include: [ 'category' ]})
+    .then((theObject) => {
+      
+      if (theObject!=null) {
+        theObject.forEach((_tObjectCat) => {
+          _tObjectCatAll.push({ id:_tObjectCat.id, recipeId: _recipeId, categoryId: _tObjectCat.categoryId, categoryName: _tObjectCat.category.name })
+        })
+      }
+    })
+  return nuevoPapel;
 }
 
 function _errorObject(_err, onfunction) {
   return {
-    message: `Error On Server ${onfunction} - Recipe`,
+    message: `Error On Server ${onfunction} - measure`,
     data: _err
   }
 }
@@ -204,5 +264,6 @@ module.exports = {
   update,
   remove,
   faker,
-  active
+  active,
+  saveCategory
 }
