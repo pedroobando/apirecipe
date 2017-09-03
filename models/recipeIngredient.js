@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = function(sequelize, DataTypes) {
   var recipeIngredient = sequelize.define('recipeIngredient', {
@@ -18,9 +18,9 @@ module.exports = function(sequelize, DataTypes) {
       foreignKey: {
         allowNull: false
       }
-    });
-
+    })
+    // recipeIngredient.belongsTo(models.ingredient)
   }
 
-  return recipeIngredient;
-};
+  return recipeIngredient
+}

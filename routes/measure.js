@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-var express = require('express');
-var api = express.Router();
-var measureCtrl = require('../controllers/measure');
+var express = require('express')
+var api = express.Router()
+var measureCtrl = require('../controllers/measure')
 
 
 api.route('/faker')

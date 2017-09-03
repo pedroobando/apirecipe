@@ -23,4 +23,7 @@ function conectDb(req, res) {
 		});
 }
 
-module.exports = { createDb, conectDb }
+module.exports = { 
+	createDb,
+	conectDb
+}

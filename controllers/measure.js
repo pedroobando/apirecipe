@@ -1,16 +1,16 @@
 'use strict'
 
-const models = require('../models');
+const models = require('../models')
 
 function faker(req, res, next) {
-	const faker = require('faker');
+  const faker = require('faker');
   var total = req.params.recordTotal==null?20:req.params.recordTotal;
-  var messageShow = `${total} Measure generate`;
+  var messageShow = `${total} Measure generate`
   var listObjects = [];
   for (var i = 0; i < total; i++) {
      listObjects.push({
-     	name: faker.commerce.productMaterial(),
-     	active: faker.random.boolean()
+      name: faker.commerce.productMaterial(),
+      active: faker.random.boolean()
      })
   }
   return models.measure.bulkCreate(listObjects)
@@ -36,6 +36,7 @@ function getAll(req, res, next) {
       offset = limit * (page - 1);
       if (order == 'DESC' || order == 'ASC') {
         return models.measure.findAll({
+          // include: [ 'ingredient' ],
           attributes: ['id', 'name', 'active'],
           limit: limit,
           offset: offset,
@@ -46,6 +47,7 @@ function getAll(req, res, next) {
       } else {
         return models.measure.findAll({
           attributes: ['id', 'name', 'active'],
+          // include: [ 'ingredient' ],
           limit: limit,
           offset: offset
         }).then((objectAll) => {
@@ -126,11 +128,13 @@ function _getOne(Id, onfunction) {
     return _returnJson(400, 'Bad Request - Measure', _clearObject({id:0,name:'',active:false}))
   }
   return models.measure.findById(Id).then((theObject) => {
-    if (theObject) {
-      return _returnJson(200,`Measure name ${theObject.name}`, _clearObject(theObject))
-    } else {
-      return _returnJson(404, 'NOT FOUND - Measure', _clearObject({id:0,name:'',active:false}))
-    }
+  // return models.measure.findOne({
+  //   where: {id: Id}, include: [ 'ingredient' ]}).then((theObject) => {
+      if (theObject) {
+        return _returnJson(200,`Measure name ${theObject.name}`, _clearObject(theObject))
+      } else {
+        return _returnJson(404, 'NOT FOUND - Measure', _clearObject({id:0,name:'',active:false}))
+      }
   }).catch((err) => {
     return _returnJson(500, `Error On Server _getOne -${onfunction} - measure`, err)
   });
@@ -147,6 +151,7 @@ function _clearObjectAll(_objectAll) {
 function _clearObject(_object) {
   return {
     id: _object.id, name: _object.name, active: _object.active
+    // id: _object.id, name: _object.name, active: _object.active, ingredients: _object.ingredient
   }
 }
 

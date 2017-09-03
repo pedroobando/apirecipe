@@ -2,25 +2,27 @@
 
 const models = require('../models');
 const randomize = require('randomatic');
+const randomInt = require('random-int');
 
 function faker(req, res, next) {
 	const faker = require('faker');
   var total = req.params.recordTotal==null?20:req.params.recordTotal;
   var messageShow = `${total} Ingredient generate`;
   var listObjects = [];
+  var _vrandom = 0
   for (var i = 0; i < total; i++) {
-     listObjects.push({
+    _vrandom = randomInt(1, 50)
+    listObjects.push({
      	name: faker.commerce.productName(),
       quantity: randomize('0', 3),
       price: faker.commerce.price(),
      	active: faker.random.boolean(),
-      measureId: randomize('0', 2)
+      measureId: _vrandom
      })
   }
-  // console.log(listObjects);
   return models.ingredient.bulkCreate(listObjects)
     .then(function(task) {
-      return _returnJson(201, messageShow, _clearObjectAll(task, true))
+      return _returnJson(201, messageShow, _clearObjectAll(task))
   }).catch((err)=> {
       return _returnJson(500, 'Error On Server faker - Ingredient', err)
   });
@@ -45,18 +47,18 @@ function getAll(req, res, next) {
           limit: limit,
           offset: offset,
           order: [['name', order]],
-          include: [ models.measure ]
+          include: [ 'measure' ]
         }).then((objectAll) => {
-           return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll,false))
+           return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll))
         })
       } else {
         return models.ingredient.findAll({
           attributes: ['id', 'name', 'price', 'quantity', 'active', 'measureId'],
           limit: limit,
           offset: offset,
-          include: [ models.measure ]
+          include: [ 'measure' ]
         }).then((objectAll) => {
-          return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll, false))
+          return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll))
         })
       }
     }).catch((err) =>{
@@ -138,10 +140,10 @@ function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
   if (Id==null) { 
     return _returnJson(400, 'Bad Request - Ingredient', _clearObject({id:0,name:'',active:false}))
-  }
-  // return models.ingredient.findById(Id).then((theObject) => {
+  }  
   return models.ingredient.findOne({
-    where: {id: Id}, include: [ models.measure ]}).then((theObject) => {
+    where: {id: Id}, include: [ 'measure' ]}).then((theObject) => {
+      // console.log(theObject);
       if ((theObject!=null)) {
         return _returnJson(200,`Ingredient name ${theObject.name}`, _clearObject(theObject))
       } else {
@@ -153,26 +155,19 @@ function _getOne(Id, onfunction) {
   });
 }
 
-function _clearObjectAll(_objectAll,_single) {
-  //_single = _single==null?false:_single
+function _clearObjectAll(_objectAll) {
   var objectAll = []
-  if (_single) {
-    _objectAll.forEach((tObject) => {
-      objectAll.push(_clearObjectSingle(tObject))
-    })
-  } else {
-    _objectAll.forEach((tObject) => {
-      objectAll.push(_clearObject(tObject))
-    })
-  }
-  return objectAll
+  _objectAll.forEach((tObject) => {
+    objectAll.push(_clearObject(tObject))
+  })
+ return objectAll
 }
 
-function _clearObjectSingle(_object) {
-  return {
-    id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId
-  }
-}
+// function _clearObjectSingle(_object) {
+//   return {
+//     id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId, measure: _object.measure
+//   }
+// }
 
 function _clearObject(_object) {
   return {

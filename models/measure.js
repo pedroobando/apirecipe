@@ -1,8 +1,8 @@
-"use strict"
+'use strict';
 
 module.exports = function(sequelize, DataTypes) {
   var measure = sequelize.define('measure', {
-    // idProduct: {
+    // idmeasure: {
     //   allowNull: false,
     //   autoIncrement: true,
     //   primaryKey: true,
@@ -19,6 +19,7 @@ module.exports = function(sequelize, DataTypes) {
   });
 
   measure.associate = function(models) {
+    measure.hasMany(models.ingredient, {as: 'ingredient', foreignKey: 'measureId'}) //, {as: 'ingredient', foreignKey: 'id'})
     // associations can be defined here
     // measurement.belongsTo(models.product, {
     //   onDelete: "CASCADE",
@@ -26,8 +27,7 @@ module.exports = function(sequelize, DataTypes) {
     //     allowNull: false
     //   }
     // });
-
   }
   
-  return measure;
-};
+  return measure
+}

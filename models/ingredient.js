@@ -28,8 +28,9 @@ module.exports = function(sequelize, DataTypes) {
 
   ingredient.associate = function(models) {
     // associations can be defined here
-    ingredient.belongsTo(models.measure);
+    ingredient.belongsTo(models.measure,  {as: 'measure', foreignKey: 'measureId'}) //, {as: 'Measure', foreignKey: 'id'})
+    // ingredient.belongsTo(models.recipeIngredient)
   }
   
-  return ingredient;
-};
+  return ingredient
+}

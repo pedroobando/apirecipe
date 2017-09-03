@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = function recipef(sequelize, DataTypes) {
   var recipe = sequelize.define('recipe', {
@@ -31,8 +31,11 @@ module.exports = function recipef(sequelize, DataTypes) {
 
   recipe.associate = function(models) {
     // associations can be defined here
-    recipe.hasMany(models.recipeCategory);
+    recipe.hasMany(models.recipeCategory, {as: 'categories', foreignKey: 'categoriId'})
+    // recipe.hasMany(models.recipeIngredient, {as: 'ingredients', foreignKey: 'categoriId'}),)
+    // measure.hasMany(models.ingredient, {as: 'ingredient', foreignKey: 'measureId'}) //, {as: 'ingredient', foreignKey: 'id'})
+    
   }
 
-  return recipe;
-};
+  return recipe
+}

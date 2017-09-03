@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-var express = require('express');
-var api = express.Router();
-var ingredientCtrl = require('../controllers/ingredient');
+var express = require('express')
+var api = express.Router()
+var ingredientCtrl = require('../controllers/ingredient')
 
 
 api.route('/faker')
@@ -23,8 +23,8 @@ api.route('/:keyId/active')
 	.patch((req, res, next) => {
 		ingredientCtrl.active(req, res).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
-		}).catch(err=>{
-			console.log(err);
+		}).catch(err => {
+			console.log(err)
 		})
 	})
 
