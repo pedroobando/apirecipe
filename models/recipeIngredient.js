@@ -19,7 +19,6 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false
       }
     })
-    // recipeIngredient.belongsTo(models.ingredient)
   }
 
   return recipeIngredient
