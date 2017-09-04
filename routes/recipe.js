@@ -75,7 +75,7 @@ api.route('/')
 
 api.route('/:keyId/category')
 	.get((req, res, next) => {
-		recipeCtrl.getAll(req, res).then((retvalor)=>{
+		recipeCtrl.getOneCategory(req, res).then((retvalor)=>{
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {
 			res.status(400).json(retvalor);

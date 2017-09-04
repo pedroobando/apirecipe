@@ -208,6 +208,33 @@ function _getOne(Id, onfunction) {
   })
 }
 
+function _getOneCategory(Id, onfunction) {
+  onfunction = onfunction==null?'-':onfunction
+  if (Id==null) { 
+    return _returnJson(400, 'Bad Request - Recipe', _clearObject({id:0,name:'',active:false}))
+  }
+  // return models.recipe.findById(Id).then((theObject) => {
+  return models.recipeCategory.findAll({
+    where: {recipeId: Id}, include: [ 'category' ]}).then((theObject) => {
+      if ((theObject!=null)) {
+        return _returnJson(200,`Recipe Categories ${theObject.name}`, _clearObjectAll(theObject))
+      } else {
+        return _returnJson(404, 'NOT FOUND - Recipe', {id:0, name:'', active: false, price:0, quantity:0, measureId:0, measure: {id:0, name:'', active:false}})
+      }
+  }).catch((err) => {
+    console.log(err)
+    return _returnJson(500, `Error On Server _getOne -${onfunction} - Recipe`, err)
+  })
+}
+
+function _clearObjectAllCategory(_objectAll) {
+  var objectAll = []
+  _objectAll.forEach((tObject) => {
+    objectAll.push(_clearObjectCategory(tObject))
+  })
+  return objectAll
+}
+
 function _clearObjectAll(_objectAll) {
   var objectAll = []
   _objectAll.forEach((tObject) => {
@@ -215,7 +242,6 @@ function _clearObjectAll(_objectAll) {
   })
   return objectAll
 }
-
 
 function _clearObject(_object) {
   var categoryAll = []
@@ -228,20 +254,10 @@ function _clearObject(_object) {
   console.log(`categoryAll ${categoryAll}`);
 }
 
-function _clearObjectCategory(_recipeId) {
-  // var _tObjectCatAllR = [], canaima = 0;
-  let _tObjectCatAll=[]
-  var nuevoPapel
-  nuevoPapel = models.recipeCategory.findAll({where: {recipeId: _recipeId}, include: [ 'category' ]})
-    .then((theObject) => {
-      
-      if (theObject!=null) {
-        theObject.forEach((_tObjectCat) => {
-          _tObjectCatAll.push({ id:_tObjectCat.id, recipeId: _recipeId, categoryId: _tObjectCat.categoryId, categoryName: _tObjectCat.category.name })
-        })
-      }
-    })
-  return nuevoPapel;
+function _clearObjectCategory(_object) {
+  return {
+    id:_object.id, recipeId: 0, categoryId: _object.categoryId, categoryName: _object.category.name
+  }
 }
 
 function _errorObject(_err, onfunction) {
