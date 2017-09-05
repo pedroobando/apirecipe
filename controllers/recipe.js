@@ -17,7 +17,6 @@ function faker(req, res, next) {
       active: faker.random.boolean()
      })
   }
-  // console.log(listObjects)
   return models.recipe.bulkCreate(listObjects)
     .then(function(task) {
       return _returnJson(201, messageShow, _clearObjectAll(task, true))
@@ -134,61 +133,6 @@ function remove(req, res) {
   })
 }
 
-/*
-// Categorias de Recetas
-*/
-
-function saveCategory(req, res) {
-  var idKey = req.params.keyId
-  console.log(idKey);
-  return models.recipeCategory.create({
-    recipeId: idKey,
-    categoryId: req.body.categoryId
-  }).then(function(theObject) {
-    return _returnJson(201,`Category on Recipe ${theObject.categoryId}`, _clearObject(theObject))
-  }).catch((err) => {
-    console.log(err)
-    return _returnJson(500, 'Error On Server save - recipeCategory', err)
-  })
-}
-
-
-function updateCategory(req, res, next) {
-  var idKey = req.params.keyId
-  return models.recipe.update({
-    recipeId: req.body.recipeId,
-    categoryId: req.body.categoryId
-  }, {
-    where: {
-      id: idKey
-    }
-  }).then((affectedRows)=>{
-    return _getOne(idKey)
-  }).catch((err)=>{
-    return _returnJson(500, 'Error On Server update - Recipe', err)
-  })
-}
-
-function removeCategory(req, res) {
-  var the_Id = req.params.keyId
-  return models.recipe.destroy({
-    where: {
-      id: the_Id
-    }
-  }).then((affectedRows)=>{
-    if (affectedRows>=1) {
-      return _returnJson(202,`Recipe DELETE ID:${the_Id}`, null)
-    } else {
-      return _returnJson(404,`Recipe NOT FOUND ID:${the_Id}`, null)
-    }
-  }).catch((err)=>{
-    console.log(err)
-    return _returnJson(500, 'Error On Server remove - Recipe', err)
-  })
-}
-
-
-
 function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
   if (Id==null) { 
@@ -196,8 +140,11 @@ function _getOne(Id, onfunction) {
   }
   // return models.recipe.findById(Id).then((theObject) => {
   return models.recipe.findOne({
-    where: {id: Id}, include: [ 'categories' ]}).then((theObject) => {
-      if ((theObject!=null)) {
+    where: {id: Id},
+    include: [ 
+      'categories'
+      ] }).then((theObject) => {
+      if (theObject!=null) {
         return _returnJson(200,`Recipe name ${theObject.name}`, _clearObject(theObject))
       } else {
         return _returnJson(404, 'NOT FOUND - Recipe', {id:0, name:'', active: false, price:0, quantity:0, measureId:0, measure: {id:0, name:'', active:false}})
@@ -208,33 +155,6 @@ function _getOne(Id, onfunction) {
   })
 }
 
-function _getOneCategory(Id, onfunction) {
-  onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
-    return _returnJson(400, 'Bad Request - Recipe', _clearObject({id:0,name:'',active:false}))
-  }
-  // return models.recipe.findById(Id).then((theObject) => {
-  return models.recipeCategory.findAll({
-    where: {recipeId: Id}, include: [ 'category' ]}).then((theObject) => {
-      if ((theObject!=null)) {
-        return _returnJson(200,`Recipe Categories ${theObject.name}`, _clearObjectAll(theObject))
-      } else {
-        return _returnJson(404, 'NOT FOUND - Recipe', {id:0, name:'', active: false, price:0, quantity:0, measureId:0, measure: {id:0, name:'', active:false}})
-      }
-  }).catch((err) => {
-    console.log(err)
-    return _returnJson(500, `Error On Server _getOne -${onfunction} - Recipe`, err)
-  })
-}
-
-function _clearObjectAllCategory(_objectAll) {
-  var objectAll = []
-  _objectAll.forEach((tObject) => {
-    objectAll.push(_clearObjectCategory(tObject))
-  })
-  return objectAll
-}
-
 function _clearObjectAll(_objectAll) {
   var objectAll = []
   _objectAll.forEach((tObject) => {
@@ -243,27 +163,11 @@ function _clearObjectAll(_objectAll) {
   return objectAll
 }
 
-function _clearObject(_object) {
+function _clearObject(_object, _categories) {
   var categoryAll = []
-  // categoryAll = _clearObjectCategory(_object.id)
-  
   return {
     id: _object.id, name: _object.name, difficulty: _object.difficulty, portion:_object.portion, preparation: _object.preparation, active: _object.active,
-    categories: categoryAll
-  }
-  console.log(`categoryAll ${categoryAll}`);
-}
-
-function _clearObjectCategory(_object) {
-  return {
-    id:_object.id, recipeId: 0, categoryId: _object.categoryId, categoryName: _object.category.name
-  }
-}
-
-function _errorObject(_err, onfunction) {
-  return {
-    message: `Error On Server ${onfunction} - measure`,
-    data: _err
+    categories: _object.categories
   }
 }
 
@@ -280,6 +184,5 @@ module.exports = {
   update,
   remove,
   faker,
-  active,
-  saveCategory
+  active
 }

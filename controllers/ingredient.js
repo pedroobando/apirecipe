@@ -22,14 +22,15 @@ function faker(req, res, next) {
   }
   return models.ingredient.bulkCreate(listObjects)
     .then(function(task) {
-      return _returnJson(201, messageShow, _clearObjectAll(task))
+      return _returnJson(201, messageShow, _clearObjectAll(task, false))
   }).catch((err)=> {
+      console.log(err);
       return _returnJson(500, 'Error On Server faker - Ingredient', err)
   });
 }
 
 function getOne(req, res, next) {
-  return _getOne(req.params.keyId, 'getOne');
+  return _getOne(req.params.keyId, 'getOne', true);
 }
 
 function getAll(req, res, next) {
@@ -49,7 +50,7 @@ function getAll(req, res, next) {
           order: [['name', order]],
           include: [ 'measure' ]
         }).then((objectAll) => {
-           return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll))
+           return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll,true))
         })
       } else {
         return models.ingredient.findAll({
@@ -58,7 +59,7 @@ function getAll(req, res, next) {
           offset: offset,
           include: [ 'measure' ]
         }).then((objectAll) => {
-          return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll))
+          return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll, true))
         })
       }
     }).catch((err) =>{
@@ -74,7 +75,7 @@ function save(req, res) {
     active: req.body.active,
     measureId: req.body.measureId
   }).then(function(theObject) {
-    return _returnJson(201,`Ingredient name ${theObject.name}`, _clearObjectSingle(theObject))
+    return _returnJson(201,`Ingredient name ${theObject.name}`, _clearObject(theObject, false))
   }).catch((err) => {
     console.log(err);
     return _returnJson(500, 'Error On Server save - Ingredient', err)
@@ -91,7 +92,7 @@ function active(req, res, next) {
         id: IdCat
       }
     }).then((affectedRows)=>{
-      return _getOne(IdCat)
+      return _getOne(IdCat, true)
     }).catch((err)=>{
       return _returnJson(500, 'Error On Server active - Ingredient', err)
     })
@@ -111,7 +112,7 @@ function update(req, res, next) {
       id: IdCat
     }
   }).then((affectedRows)=>{
-    return _getOne(IdCat)
+    return _getOne(IdCat,false)
   }).catch((err)=>{
     return _returnJson(500, 'Error On Server update - Ingredient', err)
   })
@@ -136,7 +137,7 @@ function remove(req, res) {
 }
 
 
-function _getOne(Id, onfunction) {
+function _getOne(Id, onfunction, _withMeasure) {
   onfunction = onfunction==null?'-':onfunction
   if (Id==null) { 
     return _returnJson(400, 'Bad Request - Ingredient', _clearObject({id:0,name:'',active:false}))
@@ -145,7 +146,7 @@ function _getOne(Id, onfunction) {
     where: {id: Id}, include: [ 'measure' ]}).then((theObject) => {
       // console.log(theObject);
       if ((theObject!=null)) {
-        return _returnJson(200,`Ingredient name ${theObject.name}`, _clearObject(theObject))
+        return _returnJson(200,`Ingredient name ${theObject.name}`, _clearObject(theObject, _withMeasure))
       } else {
         return _returnJson(404, 'NOT FOUND - Ingredient', {id:0, name:'', active: false, price:0, quantity:0, measureId:0, measure: {id:0, name:'', active:false}})
       }
@@ -155,24 +156,27 @@ function _getOne(Id, onfunction) {
   });
 }
 
-function _clearObjectAll(_objectAll) {
+function _clearObjectAll(_objectAll, _withMeasure) {
   var objectAll = []
   _objectAll.forEach((tObject) => {
-    objectAll.push(_clearObject(tObject))
+    objectAll.push(_clearObject(tObject, _withMeasure))
   })
  return objectAll
 }
 
-// function _clearObjectSingle(_object) {
-//   return {
-//     id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId, measure: _object.measure
-//   }
-// }
+function _clearObject(_object, _withMeasure) {
+  _withMeasure=_withMeasure!=null?_withMeasure:false
+  if (_withMeasure) {
+    return {
+      id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId, measure: {id:_object.measure.id, name:_object.measure.name, active:_object.measure.active}
+    }
+  } else {
+    return {
+      id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId
+    }
 
-function _clearObject(_object) {
-  return {
-    id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId, measure: {id:_object.measure.id, name:_object.measure.name, active:_object.measure.active}
   }
+
 }
 
 function _errorObject(_err, onfunction) {

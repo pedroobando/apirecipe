@@ -12,13 +12,15 @@ module.exports = function(sequelize, DataTypes) {
 
   recipeIngredient.associate = function(models) {
     // associations can be defined here
+    recipeIngredient.belongsTo(models.recipe, {as: 'recipe', foreignKey: 'recipeId'}),
+    recipeIngredient.belongsTo(models.ingredient, {as: 'ingredient', foreignKey: 'ingredientId'}) 
     // recipeCategory.hasMany(models.product);
-    recipeIngredient.belongsTo(models.recipe, {
-      onDelete: "CASCADE",
-      foreignKey: {
-        allowNull: false
-      }
-    })
+    // recipeIngredient.belongsTo(models.recipe, {
+    //   onDelete: "CASCADE",
+    //   foreignKey: {
+    //     allowNull: false
+    //   }
+    // })
   }
 
   return recipeIngredient

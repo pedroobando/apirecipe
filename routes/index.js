@@ -3,10 +3,10 @@
 var express = require('express')
 var router = express.Router()
 var ctrlDatabase = require('../controllers/database')
-var categoryCtrl = require('../controllers/category')
-var measureCtrl = require('../controllers/measure')
-var ingredientCtrl = require('../controllers/ingredient')
-var recipeCtrl = require('../controllers/recipe')
+// var categoryCtrl = require('../controllers/category')
+// var measureCtrl = require('../controllers/measure')
+// var ingredientCtrl = require('../controllers/ingredient')
+// var recipeCtrl = require('../controllers/recipe')
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
@@ -17,47 +17,19 @@ router.get('/createdb', ctrlDatabase.createDb)
 
 router.get('/conectdb', ctrlDatabase.conectDb)
 
-router.route('/createdemo')
-	.get((req, res, next) => {
-		let rowcreated = []
-		req.params.recordTotal=110
-		categoryCtrl.faker(req, res).then((retvalor) => {
-			rowcreated.category = retvalor.data
-			// res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
-		}).catch(err => {
-			console.log(err)
-		})
-		req.params.recordTotal=120
-		measureCtrl.faker(req, res).then((retvalor) => {
-			rowcreated.measure = retvalor.data
-			// res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
-		}).catch(err => {
-			console.log(err)
-		})
-		
-		req.params.recordTotal=100
-		ingredientCtrl.faker(req, res).then((retvalor) => {
-			rowcreated.ingredient = retvalor.data
-			// res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
-		}).catch(err => {
-			console.log(err)
-		})
+// router.get('/createdemo', ctrlDatabase.createDemo)
 
-		req.params.recordTotal=50
-		recipeCtrl.faker(req, res).then((retvalor) => {
-			rowcreated.recipe = retvalor.data
-			// res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
-		}).catch(err => {
-			console.log(err)
-		})		
-
-		res.status(200).json({
-			message: 'Fueron creados todos los datos',
-			data_category: rowcreated.category,
-			data_measure: rowcreated.measure,
-			data_ingredient: rowcreated.ingredient,
-			data_recipe: rowcreated.recipe
-		})
+// api.route('/faker').get((req, res, next) => {
+// 	categoryCtrl.faker(req, res).then((retvalor) => {
+// 		res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+// 	})
+// })
+	
+router.route('/createdemo').get((req, res, next) => {
+	req.params.recordTotal = 50
+	ctrlDatabase.createDemo(req, res).then(retvalor => {
+		res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 	})
+})
 
 module.exports = router
