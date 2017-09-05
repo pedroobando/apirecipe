@@ -7,19 +7,19 @@
 const models = require('../models')
 const randomInt = require('random-int')
 
-function faker(req, res, next) {
-  var total = req.params.recordTotal==null?20:req.params.recordTotal
-  var messageShow = `${total} Recipe generate`
+function faker(_recordTotal) {
+  // var total = req.params.recordTotal==null?20:req.params.recordTotal
+  var messageShow = `${_recordTotal} Recipe generate`
   var listObjects = []
-  for (var i = 0; i < (total*2); i++) {
+  for (var i = 0; i < (_recordTotal*2); i++) {
      listObjects.push({
-      categoryId: randomInt(1, total),
-      recipeId: randomInt(1, total),
+      categoryId: randomInt(1, _recordTotal-1),
+      recipeId: randomInt(1, _recordTotal-1),
      })
   }
   return models.recipeCategory.bulkCreate(listObjects)
     .then(function(task) {
-      return _returnJson(201, messageShow, task)
+      return _returnJson(201, messageShow, _clearObjectCategoryAll(task))
   }).catch((err)=> {
       return _returnJson(500, 'Error On Server fakerCategory - Recipe', err)
   })

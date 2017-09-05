@@ -2,13 +2,13 @@
 
 const models = require('../models');
 
-function faker(req, res, next) {
+function faker(_recordTotal) {
   const faker = require('faker');
-  var total = req.params.recordTotal==null?20:req.params.recordTotal;
-  var messageShow = `${total} category generate`;
+  // var total = req.params.recordTotal==null?20:req.params.recordTotal;
+  var messageShow = `${_recordTotal} category generate`;
   var _categoryLine, _categoryName
   var listObjects = [];
-  for (var i = 0; i < total; i++) {
+  for (var i = 0; i < _recordTotal; i++) {
     listObjects.push({name:faker.commerce.productMaterial(), active:faker.random.boolean()});
   }
   return models.category.bulkCreate(listObjects)

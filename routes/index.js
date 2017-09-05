@@ -25,9 +25,16 @@ router.get('/conectdb', ctrlDatabase.conectDb)
 // 	})
 // })
 	
+router.route('/createdemo/:recordTotal').get((req, res, next) => {
+	var _recordTotal = req.params.recordTotal==null?50:req.params.recordTotal;
+	ctrlDatabase.createDemo(_recordTotal).then(retvalor => {
+		res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+	})
+})
+
 router.route('/createdemo').get((req, res, next) => {
-	req.params.recordTotal = 50
-	ctrlDatabase.createDemo(req, res).then(retvalor => {
+	var _recordTotal = 50
+	ctrlDatabase.createDemo(_recordTotal).then(retvalor => {
 		res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 	})
 })

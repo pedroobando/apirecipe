@@ -3,12 +3,12 @@
 const models = require('../models')
 const randomInt = require('random-int')
 
-function faker(req, res, next) {
+function faker(_recordTotal) {
   const faker = require('faker')
-  var total = req.params.recordTotal==null?20:req.params.recordTotal
-  var messageShow = `${total} Recipe generate`
+  // var total = req.params.recordTotal==null?20:req.params.recordTotal
+  var messageShow = `${_recordTotal} Recipe generate`
   var listObjects = []
-  for (var i = 0; i < total; i++) {
+  for (var i = 0; i < _recordTotal; i++) {
      listObjects.push({
       name: faker.commerce.productName(),
       difficulty: randomInt(1, 5),

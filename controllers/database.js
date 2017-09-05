@@ -5,6 +5,7 @@ const categoryCtrl = require('../controllers/category');
 const measureCtrl = require('../controllers/measure');
 const ingredientCtrl = require('../controllers/ingredient');
 const recipeCtrl = require('../controllers/recipe');
+const recipeCatCtrl = require('../controllers/recipeCategory');
 
 function createDb(req, res, next) {
   return models.sequelize.sync({force:true})
@@ -27,32 +28,31 @@ function conectDb(req, res) {
 		});
 }
 
-function createDemo(req, res, next) {
+function createDemo(_recordTotal) {
 		var rowcreated = []
 		let seed = ()=> {
 			return models.sequelize.sync({force:true}).then(() => {
 				return Promise.all([
 					// req.params.recordTotal = 110
-					categoryCtrl.faker(req, res, next).then(retvalor => {
+					categoryCtrl.faker(_recordTotal).then(retvalor => {
 					 	// rowcreated.category = retvalor.data
 					 	return retvalor.data
 					}),
 					// req.params.recordTotal = 50
-					measureCtrl.faker(req, res).then((retvalor) => {
+					measureCtrl.faker(_recordTotal).then((retvalor) => {
 						return retvalor.data
 					}),
 					// req.params.recordTotal=100
-					ingredientCtrl.faker(req, res).then((retvalor) => {
+					ingredientCtrl.faker(_recordTotal).then((retvalor) => {
 						return retvalor.data
 					}),
 					// req.params.recordTotal=50
-					recipeCtrl.faker(req, res).then((retvalor) => {
+					recipeCtrl.faker(_recordTotal).then((retvalor) => {
 						return retvalor.data
-					}),
-					recipeCtrl.fakerCategory(req, res).then((retvalor) => {
+					}),					,
+					recipeCatCtrl.faker(_recordTotal).then((retvalor) => {
 						return retvalor.data
 					})
-
 				]).then( result => {
 					rowcreated.push(result[0])
 					rowcreated.push(result[1])
@@ -66,8 +66,8 @@ function createDemo(req, res, next) {
 
 		return seed().then(() => {
 			return _returnJson(200, `Los datos fueron creados:`,rowcreated)
-		}).catch( e => {
-			console.log(e);
+		}).catch( err => {
+			console.log(err);
 			return _returnJson(500, 'Error On Server createDemo - database controllers', err)
 		})
 

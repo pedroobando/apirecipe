@@ -4,13 +4,13 @@ const models = require('../models');
 const randomize = require('randomatic');
 const randomInt = require('random-int');
 
-function faker(req, res, next) {
+function faker(_recordTotal) {
 	const faker = require('faker');
-  var total = req.params.recordTotal==null?20:req.params.recordTotal;
-  var messageShow = `${total} Ingredient generate`;
+  // var total = req.params.recordTotal==null?20:req.params.recordTotal;
+  var messageShow = `${_recordTotal} Ingredient generate`;
   var listObjects = [];
   var _vrandom = 0
-  for (var i = 0; i < total; i++) {
+  for (var i = 0; i < _recordTotal; i++) {
     _vrandom = randomInt(1, 50)
     listObjects.push({
      	name: faker.commerce.productName(),
