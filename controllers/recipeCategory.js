@@ -20,7 +20,6 @@ function faker(_recordTotal) {
   
   return models.recipeCategory.bulkCreate(listObjects)
     .then(function(task) {
-      // console.log(task);
       return _returnJson(201, messageShow, _clearObjectCategoryAllFaker(task))
   }).catch((err)=> {
       return _returnJson(500, 'Error On Server fakerCategory - Recipe', err)

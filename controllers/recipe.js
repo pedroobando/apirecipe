@@ -17,6 +17,7 @@ function faker(_recordTotal) {
       active: faker.random.boolean()
      })
   }
+  
   return models.recipe.bulkCreate(listObjects)
     .then(function(task) {
       return _returnJson(201, messageShow, _clearObjectAll(task, true))

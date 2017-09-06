@@ -14,7 +14,6 @@ var measure = require('./routes/measure')
 var category = require('./routes/category')
 var ingredient = require('./routes/ingredient')
 
-
 var app = express()
 
 // view engine setup
