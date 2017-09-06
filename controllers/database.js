@@ -49,7 +49,7 @@ function createDemo(_recordTotal) {
 					// req.params.recordTotal=50
 					recipeCtrl.faker(_recordTotal).then((retvalor) => {
 						return retvalor.data
-					}),					,
+					}),
 					recipeCatCtrl.faker(_recordTotal).then((retvalor) => {
 						return retvalor.data
 					})

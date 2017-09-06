@@ -11,15 +11,17 @@ function faker(_recordTotal) {
   // var total = req.params.recordTotal==null?20:req.params.recordTotal
   var messageShow = `${_recordTotal} Recipe generate`
   var listObjects = []
-  for (var i = 0; i < (_recordTotal*2); i++) {
+  for (var i = 0; i < (_recordTotal); i++) {
      listObjects.push({
       categoryId: randomInt(1, _recordTotal-1),
       recipeId: randomInt(1, _recordTotal-1),
      })
   }
+  
   return models.recipeCategory.bulkCreate(listObjects)
     .then(function(task) {
-      return _returnJson(201, messageShow, _clearObjectCategoryAll(task))
+      // console.log(task);
+      return _returnJson(201, messageShow, _clearObjectCategoryAllFaker(task))
   }).catch((err)=> {
       return _returnJson(500, 'Error On Server fakerCategory - Recipe', err)
   })
@@ -147,6 +149,21 @@ function _clearObjectCategoryAll(_objectAll) {
   })
   return objectAll
 }
+
+function _clearObjectCategoryAllFaker(_objectAll) {
+  var objectAll = []
+  _objectAll.forEach((tObject) => {
+    objectAll.push(_clearObjectFaker(tObject))
+  })
+  return objectAll
+}
+
+function _clearObjectFaker(_object) {
+  return {
+    id:_object.id, recipeId: _object.recipeId, categoryId: _object.categoryId
+  }
+}
+
 
 function _clearObject(_object) {
   return {

@@ -12,9 +12,9 @@ module.exports = function(sequelize, DataTypes) {
 
   recipeCategory.associate = function(models) {
     // associations can be defined here
-    // recipeCategory.hasMany(models.product);
+    
     recipeCategory.belongsTo(models.recipe, {as: 'recipe', foreignKey: 'recipeId', sourceKey: 'id'}),
-    recipeCategory.belongsTo(models.category, {as: 'category', foreignKey: 'categoryId'})
+    recipeCategory.belongsTo(models.category, {as: 'category', foreignKey: 'categoryId', sourceKey: 'id'})
 
   }
 
