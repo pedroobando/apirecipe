@@ -6,6 +6,8 @@ const measureCtrl = require('../controllers/measure');
 const ingredientCtrl = require('../controllers/ingredient');
 const recipeCtrl = require('../controllers/recipe');
 const recipeCatCtrl = require('../controllers/recipeCategory');
+const recipeIngCtrl = require('../controllers/recipeIngredient');
+
 
 function createDb(req, res, next) {
   return models.sequelize.sync({force:true})
@@ -52,6 +54,9 @@ function createDemo(_recordTotal) {
 					}),
 					recipeCatCtrl.faker(_recordTotal).then((retvalor) => {
 						return retvalor.data
+					}),
+					recipeIngCtrl.faker(_recordTotal).then(retvalor => {
+						return retvalor.data
 					})
 				]).then( result => {
 					rowcreated.push(result[0])
@@ -59,6 +64,7 @@ function createDemo(_recordTotal) {
 					rowcreated.push(result[2])
 					rowcreated.push(result[3])
 					rowcreated.push(result[4])
+					rowcreated.push(result[5])
 					console.log('Agregadas todos los datos');
 				})
 			})

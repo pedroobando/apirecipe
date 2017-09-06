@@ -4,6 +4,7 @@ var express = require('express')
 var api = express.Router()
 var recipeCtrl = require('../controllers/recipe')
 var recipeCategoryCtrl = require('../controllers/recipeCategory')
+var recipeIngredientCtrl = require('../controllers/recipeIngredient')
 
 
 api.route('/faker')
@@ -113,5 +114,45 @@ api.route('/:keyId/category/:categoryId')
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
+
+api.route('/:keyId/ingredient')
+	.get((req, res, next) => {
+		let keyId = req.params.keyId;
+		recipeIngredientCtrl.getAllByRecipe(keyId).then((retvalor)=>{
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch((err) => {
+			res.status(400).json(retvalor);
+		})
+	})
+
+api.route('/:keyId/ingredient/:ingredientId')
+	.get((req, res, next) => {
+		let keyId = req.params.keyId
+		let ingredientId = req.params.ingredientId
+		recipeIngredientCtrl.getOneByRecipe(keyId, ingredientId).then((retvalor)=>{
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch((err) => {
+			res.status(400).json(retvalor);
+		})
+	})
+	.post((req, res, next) => {
+		let keyId = req.params.keyId
+		let ingredientId = req.params.ingredientId
+		recipeIngredientCtrl.save(keyId, ingredientId).then((retvalor) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch((err) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		})
+	})
+	.delete((req, res, next) => {
+		let keyId = req.params.keyId
+		let ingredientId = req.params.ingredientId
+		recipeIngredientCtrl.remove(keyId, ingredientId).then((retvalor) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch((err) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		})
+	})
+
 
 module.exports = api;

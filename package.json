@@ -1,5 +1,5 @@
 {
-  "name": "apiRecipe",
+  "name": "apirecipe",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -11,7 +11,8 @@
     "API RESTful",
     "Express",
     "Sequelize",
-    "Postgres"
+    "Postgres",
+    "SQLite"
   ],
   "dependencies": {
     "body-parser": "~1.17.2",

@@ -9,7 +9,7 @@ const randomInt = require('random-int')
 
 function faker(_recordTotal) {
   // var total = req.params.recordTotal==null?20:req.params.recordTotal
-  var messageShow = `${_recordTotal} Recipe generate`
+  var messageShow = `${_recordTotal} Category generate in recipe`
   var listObjects = []
   for (var i = 0; i < (_recordTotal); i++) {
      listObjects.push({

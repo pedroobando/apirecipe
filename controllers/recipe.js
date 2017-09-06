@@ -143,7 +143,7 @@ function _getOne(Id, onfunction) {
   return models.recipe.findOne({
     where: {id: Id},
     include: [ 
-      'categories'
+      'ingredients','categories'
       ] }).then((theObject) => {
       if (theObject!=null) {
         return _returnJson(200,`Recipe name ${theObject.name}`, _clearObject(theObject))
@@ -168,7 +168,7 @@ function _clearObject(_object, _categories) {
   var categoryAll = []
   return {
     id: _object.id, name: _object.name, difficulty: _object.difficulty, portion:_object.portion, preparation: _object.preparation, active: _object.active,
-    categories: _object.categories
+    categories: _object.categories, ingredients: _object.ingredients
   }
 }
 
