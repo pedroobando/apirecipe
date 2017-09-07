@@ -1,3 +1,35 @@
+# apirecipe
+Tutorial o ejemplo de un simple APIRESTful - 
+Tutorial Api-RESTful - Guiado por [Carlos Azaustre](https://twitter.com/carlosazaustre)
+
+### Descripcion
+
+Desarrollo de API REST para recetas de cocina. el cual realiza un CRUD en la base de datos.
+
+Este API, lugo sera consumido por una aplicacion realizada en VUEJS 2.0roducto (CRUD)
+
+Fecha de inicio del cursillo: 2017-AGO-20
+
+
+### Desarollado bajo
+
+- node.js (v6.10.0)
+- express
+- sequelize
+
+### Base de datos
+
+- sqlite3 	[Testing](https://www.sqlite.org/)
+- Postgres 	[Produccion](https://www.postgresql.org/)
+
+### Usando Token & Postman
+
+- [JWT](https://jwt.io/)
+- [Postman](https://www.getpostman.com/) Para ver y verificas las API's
+
+### Notas
+
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/pedroobando/apirestrecipe/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
