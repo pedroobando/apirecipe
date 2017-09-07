@@ -3,10 +3,6 @@
 var express = require('express')
 var router = express.Router()
 var ctrlDatabase = require('../controllers/database')
-// var categoryCtrl = require('../controllers/category')
-// var measureCtrl = require('../controllers/measure')
-// var ingredientCtrl = require('../controllers/ingredient')
-// var recipeCtrl = require('../controllers/recipe')
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
