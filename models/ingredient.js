@@ -12,10 +12,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false
     },
-    quantity: {
-      type: DataTypes.DOUBLE,
-      defaultValue: 0
-    },
+    // quantity: {
+    //   type: DataTypes.DOUBLE,
+    //   defaultValue: 0
+    // },
     price: {
       type: DataTypes.DOUBLE,
       defaultValue: 0

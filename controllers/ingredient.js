@@ -1,7 +1,6 @@
 'use strict'
 
 const models = require('../models');
-const randomize = require('randomatic');
 const randomInt = require('random-int');
 
 function faker(_recordTotal) {
@@ -14,10 +13,10 @@ function faker(_recordTotal) {
     _vrandom = randomInt(1, 50)
     listObjects.push({
      	name: faker.commerce.productName(),
-      quantity: randomize('0', 3),
+      // quantity: randomize('0', 3),
       price: faker.commerce.price(),
      	active: faker.random.boolean(),
-      measureId: _vrandom
+      measureId: randomInt(1, _recordTotal-1),
      })
   }
   return models.ingredient.bulkCreate(listObjects)

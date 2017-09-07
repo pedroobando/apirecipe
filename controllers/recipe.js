@@ -50,7 +50,7 @@ function getAll(req, res, next) {
           limit: limit,
           offset: offset,
           order: [['name', order]],
-          include: [ 'categories' ]
+          include: [ 'categories', 'ingredients' ]
         }).then((objectAll) => {
            return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll,false))
         })
@@ -59,7 +59,7 @@ function getAll(req, res, next) {
           attributes: ['id', 'name', 'difficulty', 'portion', 'preparation','active'],
           limit: limit,
           offset: offset,
-          include: [ 'categories' ]
+          include: [ 'categories', 'ingredients' ]
         }).then((objectAll) => {
           return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll, false))
         })
