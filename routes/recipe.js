@@ -30,10 +30,19 @@ api.route('/:keyId/active')
 		})
 	})
 
+api.route('/id/:keyId')
+	.get((req, res, next) => {
+		var idRecipe = req.params.keyId
+		recipeCtrl.getOneId(idRecipe).then((retvalor) => {
+			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
+		}).catch((err)=> {
+			console.log(err);
+		})
+	})
+
 api.route('/:keyId')
 	.get((req, res, next) => {
 		recipeCtrl.getOne(req, res).then((retvalor) => {
-			// console.log(retvalor.data);
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err)=> {
 			console.log(err);

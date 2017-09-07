@@ -27,7 +27,12 @@ function faker(_recordTotal) {
 }
 
 function getOne(req, res, next) {
+  // return _getOne(req.params.keyId, 'getOne')
   return _getOne(req.params.keyId, 'getOne')
+}
+
+function getOneId(_recipeId) {
+  return _getOneId(_recipeId, 'getOneId')
 }
 
 function getAll(req, res, next) {
@@ -156,6 +161,37 @@ function _getOne(Id, onfunction) {
   })
 }
 
+function _getOneId(_idRecipe, onfunction) {
+  onfunction = onfunction==null?'-':onfunction
+  if (_idRecipe==null) { 
+    return _returnJson(400, 'Bad Request - Recipe', _clearObject({id:0,name:'',active:false}))
+  }
+  console.log(_idRecipe)
+  let objRecipeData = {}
+  let theRecipe = ()=> {
+    return Promise.all([
+      models.recipe.findById(_idRecipe).then(retValor=>{ return retValor }),
+      models.recipeIngredient.findAll({
+        where: {recipeId: _idRecipe},
+        include: ['measure','ingredient']}).then(retValor=>{ return retValor}),
+      models.recipeCategory.findAll({
+        where: {recipeId: _idRecipe},
+        include: ['category']}).then(retValor=>{ return retValor})
+    ]).then(resultPromise=>{
+      objRecipeData.head=resultPromise[0]
+      objRecipeData.ingredient=resultPromise[1]
+      objRecipeData.category=resultPromise[2]
+    })
+  }
+
+  return theRecipe().then(() => {
+    return _returnJson(200, `Los datos fueron creados:`,objRecipeData)
+  }).catch( err => {
+    console.log(err);
+    return _returnJson(500, 'Error On Server _getOneId - recipe controllers', err)
+  })
+}
+
 function _clearObjectAll(_objectAll) {
   var objectAll = []
   _objectAll.forEach((tObject) => {
@@ -180,6 +216,7 @@ function _returnJson(_statusCode, _message, _data) {
 
 module.exports = {
   getOne,
+  getOneId,
   getAll,
   save,
   update,
