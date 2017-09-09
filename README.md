@@ -59,6 +59,6 @@ Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
 [delete - http://localhost:3000/category/:id]: Elimina el registro de la categoria.
 
 #### Tabla Category
-id: numerico
-name: caracter o string
-active: bolean o logico
+- id: numerico
+- name: caracter o string
+- active: bolean o logico
