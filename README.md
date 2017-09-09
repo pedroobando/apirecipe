@@ -82,9 +82,9 @@ Tabla Measure
 ### Api Ingredient (Ingredientes)
 ```markdown
 Los ingredientes usados para elaborar las recetas
-Ejemplo: Ajo, Aji, Carne, Pescado, Tomillo, Fresas, Limon, Naranja, Arina Trigo, etc
+Ejemplo: Ajo, Aji, Carne, Pescado, Tomillo, Fresas, Limon, Naranja, Arina Trigo, etc.
 
-`http://localhost:3000/ingredient`: _Muestra todas las elementos registrados
+`http://localhost:3000/ingredient`: _Muestra todas las elementos registrados_
 `http://localhost:3000/ingredient/:id`: Muestra una elemento en especifico
 `http://localhost:3000/ingredient/faker`: Agrega elementos a la base datos para demostrar
 `http://localhost:3000/ingredient/faker/:totalElment`: Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar
