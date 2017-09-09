@@ -87,7 +87,7 @@ Ejemplo: Ajo, Aji, Carne, Pescado, Tomillo, Fresas, Limon, Naranja, Arina Trigo,
 `http://localhost:3000/ingredient`: _Muestra todas las elementos registrados_
 `http://localhost:3000/ingredient/:id`: Muestra una elemento en especifico
 `http://localhost:3000/ingredient/faker`: Agrega elementos a la base datos para demostrar
-`http://localhost:3000/ingredient/faker/:totalElment`: Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar
+`http://localhost:3000/ingredient/faker/:totalElment`: Agrega [N] elementos a las tablas.
 `post - http://localhost:3000/ingredient`: Agrega un registro completo
 `put - http://localhost:3000/ingredient/:id`: Actualiza el registro completo
 `patch - http://localhost:3000/ingredient/:id/active`: Activa o desactivo el registro completo
