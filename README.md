@@ -41,7 +41,8 @@ La base de datos debe esta previamente creada cuando se trabaja con postgres
 ```markdown
 Esto indica las posibles categorias de la recetas
 Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
-`http://localhost:3000/category`: Muestra todas los elementos registradas:paramentros: order=[ASC/DESC] limit=[int] page=[int]
+`http://localhost:3000/category`: Muestra todas los elementos registradas
+ paramentros: order=[ASC/DESC] limit=[int] page=[int]
 `http://localhost:3000/category/:id`: Muestra un elemento especifico.
 `http://localhost:3000/category/faker`: Agrega elementos a la base datos para demostrar.
 `http://localhost:3000/category/faker/:totalElment`: Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar.
@@ -60,7 +61,8 @@ Tabla Category
 ```markdown
 Esto indica las medidas existentes en las recetas.
 Ejemplo: Taza, cucharada rasa, gramos, kilos, mili-litros, unidad, etc
-`http://localhost:3000/measure`: _Muestra todas las medidas registradas, pudiendose agregar los siguientes parametros:_ **order=**[ASC/DESC] **limit=**[numero] **page=**[nropagina]
+`http://localhost:3000/measure`: _Muestra todas las medidas registradas,
+ parametros:_ **order=**[ASC/DESC] **limit=**[numero] **page=**[nropagina]
 `http://localhost:3000/measure/:id`: Muestra una medidas en especifica
 `http://localhost:3000/measure/faker`: Agrega elementos a la base datos para demostrar las medidas
 `http://localhost:3000/category/faker/:totalElment`: Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar las categorias
