@@ -79,6 +79,7 @@ Tabla Measure
 `active`: bolean o logico
 ```
 
+
 ### Api Ingredient (Ingredientes)
 ```markdown
 Los ingredientes usados para elaborar las recetas
@@ -99,4 +100,30 @@ Tabla Measure
 `price`: double o decimales
 `active`: bolean o logico
 `measure`: objeto medida (relacionado)
+```
+
+
+### Api Recipe (Receta)
+```markdown
+La receta contiene los ingredientes, las categorias,
+Ejemplo: Pollo frito
+
+`http://localhost:3000/recipe`: _Muestra todas las elementos registrados_
+`http://localhost:3000/recipe/:id`: Muestra una elemento en especifico
+`http://localhost:3000/recipe/faker`: Agrega elementos a la base datos para demostrar
+`http://localhost:3000/recipe/faker/:totalElment`: Agrega [N] elementos a las tablas.
+`post - http://localhost:3000/recipe`: Agrega un registro completo
+`put - http://localhost:3000/recipe/:id`: Actualiza el registro completo
+`patch - http://localhost:3000/recipe/:id/active`: Activa o desactivo el registro completo
+`delete - http://localhost:3000/recipe/:id`: Elimina el registro
+
+Tabla Measure
+`id`: numerico
+`name`: caracter o string
+`dificulty`: entero
+`portion`: entero
+`preparation`: string (forma de preparacion)
+`active`: bolean o logico
+`categories`: objeto categoria (relacionado)
+`ingredients`: objeto ingrediente (relacionado)
 ```
