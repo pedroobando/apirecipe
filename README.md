@@ -50,7 +50,7 @@ Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
 `patch - http://localhost:3000/category/:id/active`: Activa o desactivo el registro completo.
 `delete - http://localhost:3000/category/:id`: Elimina el registro.
 
-#### Tabla Category
+Tabla Category
 `id`: numerico
 `name`: caracter o string
 `active`: bolean o logico
@@ -69,7 +69,7 @@ Ejemplo: Taza, cucharada rasa, gramos, kilos, mili-litros, unidad, etc
 `patch - http://localhost:3000/measure/:id/active`: Activa o desactivo el registro completo
 `delete - http://localhost:3000/measure/:id`: Elimina el registro
 
-#### Tabla Measure
+Tabla Measure
 `id`: numerico
 `name`: caracter o string
 `active`: bolean o logico
