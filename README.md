@@ -6,7 +6,7 @@ Tutorial o ejemplo de un simple APIRESTful -
 
 Desarrollo de API REST para recetas de cocina. el cual realiza un CRUD en la base de datos.
 
-Este API, lugo sera consumido por una aplicacion realizada en VUEJS 2.0roducto (CRUD)
+Este API, lugo sera consumido por una aplicacion realizada en VUEJS 2.0 producto (CRUD)
 
 Fecha de inicio del cursillo: 2017-AGO-20
 
