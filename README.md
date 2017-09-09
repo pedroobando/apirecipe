@@ -42,8 +42,8 @@ La base de datos debe esta previamente creada cuando se trabaja con postgres
 Esto indica las posibles categorias de la recetas
 Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
 ```
-- `http://localhost:3000/category/`: _Muestra todas los elementos registradas:_ paramentros: order=[ASC/DESC] limit=[int] page=[int]
-- `http://localhost:3000/category/:id`: Muestra un elemento especifico.
+- [http://localhost:3000/category/](): _Muestra todas los elementos registradas:_ paramentros: order=[ASC/DESC] limit=[int] page=[int]
+- [http://localhost:3000/category/:id](): Muestra un elemento especifico.
 - [http://localhost:3000/category/faker](http://localhost:3000/category/faker): Agrega elementos a la base datos para demostrar.
 - [http://localhost:3000/category/faker/:totalElment](http://localhost:3000/category/faker/20): Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar.
 - [post - http://localhost:3000/category]: Agrega un registro completo.
