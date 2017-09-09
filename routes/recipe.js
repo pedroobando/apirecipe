@@ -30,7 +30,7 @@ api.route('/:keyId/active')
 		})
 	})
 
-api.route('/id/:keyId')
+api.route('/:keyId/show')
 	.get((req, res, next) => {
 		var idRecipe = req.params.keyId
 		recipeCtrl.getOneId(idRecipe).then((retvalor) => {

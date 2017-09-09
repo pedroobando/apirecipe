@@ -117,7 +117,7 @@ Ejemplo: Pollo frito
 `patch - http://localhost:3000/recipe/:id/active`: Activa o desactivo el registro completo
 `delete - http://localhost:3000/recipe/:id`: Elimina el registro
 
-Tabla Measure
+Tabla Recipe
 `id`: numerico
 `name`: caracter o string
 `dificulty`: entero

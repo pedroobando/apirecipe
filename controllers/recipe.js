@@ -167,8 +167,36 @@ function _getOneId(_idRecipe, onfunction) {
   if (_idRecipe==null) {
     return _returnJson(400, 'Bad Request - Recipe', _clearObject({id:0,name:'',active:false}))
   }
-  console.log(_idRecipe)
-  let objRecipeData = {}
+
+	let	_recipeHead = (_object)=> {
+		return {
+			id: _object.id, name: _object.name, difficulty: _object.difficulty, portion:_object.portion, preparation: _object.preparation, active: _object.active, createDate: _object.createdAt
+		}
+	}
+
+	let _recipeCategory = (_objectAll)=> {
+		var objectAll = []
+		_objectAll.forEach((_object) => {
+			objectAll.push({id:_object.id, recipeId: _object.recipeId, categoryId: _object.categoryId, categoryName: _object.category.name, updateDate: _object.updatedAt})
+		})
+		return objectAll
+	}
+
+	let _recipeIngredient = (_objectAll)=> {
+		var objectAll = []
+		_objectAll.forEach((_object) => {
+			objectAll.push({
+				id:_object.id, recipeId: _object.recipeId,
+				ingredientId: _object.ingredientId, ingredientName: _object.ingredient.name,
+				measureId: _object.measureId, measureName: _object.measure.name,
+				quantity: _object.quantity, updateDate: _object.updatedAt
+			})
+		})
+		return objectAll
+	}
+
+	let objRecipeData = {}
+
   let theRecipe = ()=> {
     return Promise.all([
       models.recipe.findById(_idRecipe).then(retValor=>{ return retValor }),
@@ -179,14 +207,21 @@ function _getOneId(_idRecipe, onfunction) {
         where: {recipeId: _idRecipe},
         include: ['category']}).then(retValor=>{ return retValor})
     ]).then(resultPromise=>{
-      objRecipeData.head=resultPromise[0]
-      objRecipeData.ingredient=resultPromise[1]
-      objRecipeData.category=resultPromise[2]
+			objRecipeData.head = _recipeHead(resultPromise[0])
+			objRecipeData.ingredient = _recipeIngredient(resultPromise[1])
+			objRecipeData.category = _recipeCategory(resultPromise[2])
+
+			// objRecipeData.head=resultPromise[0]
+      // objRecipeData.ingredient=resultPromise[1]
+			// objRecipeData.category=resultPromise[2]
+
     })
-  }
+	}
+
+
 
   return theRecipe().then(() => {
-    return _returnJson(200, `Los datos fueron creados:`,objRecipeData)
+    return _returnJson(200, `Recipe name ${objRecipeData.head.name}`,objRecipeData)
   }).catch( err => {
     console.log(err);
     return _returnJson(500, 'Error On Server _getOneId - recipe controllers', err)

@@ -17,7 +17,7 @@ function faker(_recordTotal) {
       recipeId: randomInt(1, _recordTotal-1),
      })
   }
-  
+
   return models.recipeCategory.bulkCreate(listObjects)
     .then(function(task) {
       return _returnJson(201, messageShow, _clearObjectCategoryAllFaker(task))
@@ -84,7 +84,7 @@ function remove(_recipeId, _categoryId) {
 
 function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
+  if (Id==null) {
     return _returnJson(400, 'Bad Request - recipeCategory', _clearObject({id:0,name:'',active:false}))
   }
   return models.recipeCategory.findOne({
@@ -102,7 +102,7 @@ function _getOne(Id, onfunction) {
 
 function _getAllByRecipe(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
+  if (Id==null) {
     return _returnJson(400, 'Bad Request - recipeCategory', _clearObject({id:0,name:'',active:false}))
   }
   return models.recipeCategory.findAll({
@@ -120,7 +120,7 @@ function _getAllByRecipe(Id, onfunction) {
 
 function _getOneByRecipe(_recipeId, _categoryId, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (_recipeId==null || _categoryId==null) { 
+  if (_recipeId==null || _categoryId==null) {
     return _returnJson(400, 'Bad Request - recipeCategory', _clearObject({id:0,name:'',active:false}))
   }
   return models.recipeCategory.findOne({
@@ -178,8 +178,8 @@ function _errorObject(_err, onfunction) {
 }
 
 function _returnJson(_statusCode, _message, _data) {
-  return { 
-    statusCode:_statusCode, message:_message, data:_data 
+  return {
+    statusCode:_statusCode, message:_message, data:_data
   }
 }
 
@@ -189,6 +189,6 @@ module.exports = {
   getOneByRecipe,
   save,
   remove,
-  save
+	save
 }
-  
+
