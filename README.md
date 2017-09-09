@@ -41,6 +41,7 @@ La base de datos debe esta previamente creada cuando se trabaja con postgres
 ```markdown
 Esto indica las posibles categorias de la recetas
 Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
+
 `http://localhost:3000/category`: Muestra todas los elementos registradas
  paramentros: order=[ASC/DESC] limit=[int] page=[int]
 `http://localhost:3000/category/:id`: Muestra un elemento especifico.
@@ -61,6 +62,7 @@ Tabla Category
 ```markdown
 Esto indica las medidas existentes en las recetas.
 Ejemplo: Taza, cucharada rasa, gramos, kilos, mili-litros, unidad, etc
+
 `http://localhost:3000/measure`: _Muestra todas las medidas registradas,
  parametros:_ **order=**[ASC/DESC] **limit=**[numero] **page=**[nropagina]
 `http://localhost:3000/measure/:id`: Muestra una medidas en especifica
@@ -75,4 +77,26 @@ Tabla Measure
 `id`: numerico
 `name`: caracter o string
 `active`: bolean o logico
+```
+
+### Api Ingredient (Ingredientes)
+```markdown
+Los ingredientes usados para elaborar las recetas
+Ejemplo: Ajo, Aji, Carne, Pescado, Tomillo, Fresas, Limon, Naranja, Arina Trigo, etc
+
+`http://localhost:3000/ingredient`: _Muestra todas las elementos registrados
+`http://localhost:3000/ingredient/:id`: Muestra una elemento en especifico
+`http://localhost:3000/ingredient/faker`: Agrega elementos a la base datos para demostrar
+`http://localhost:3000/ingredient/faker/:totalElment`: Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar
+`post - http://localhost:3000/ingredient`: Agrega un registro completo
+`put - http://localhost:3000/ingredient/:id`: Actualiza el registro completo
+`patch - http://localhost:3000/ingredient/:id/active`: Activa o desactivo el registro completo
+`delete - http://localhost:3000/ingredient/:id`: Elimina el registro
+
+Tabla Measure
+`id`: numerico
+`name`: caracter o string
+`price`: double o decimales
+`active`: bolean o logico
+`measure`: objeto medida (relacionado)
 ```
