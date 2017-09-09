@@ -39,9 +39,9 @@ Fecha de inicio del cursillo: 2017-AGO-20
 
 ### Api Category (Categorias)
 ```markdown
-- Esto indica las posibles categorias de la recetas
+	Esto indica las posibles categorias de la recetas
 	Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
-
+```
 [http://localhost:3000/category/](http://localhost:3000/category/): Muestra todas las categorias registradas, pudiendose agregar los siguientes parametros: **order=ASC/DESC** **limit=[numero]** **page=[nropagina]**
 [http://localhost:3000/category/:id](http://localhost:3000/category/6): Muestra una categoria en especifica
 [http://localhost:3000/category/faker](http://localhost:3000/category/faker): Agrega elementos a la base datos para demostrar las categorias
@@ -56,5 +56,4 @@ id: numerico
 name: caracter o string
 active: bolean o logico
 
-```
 
