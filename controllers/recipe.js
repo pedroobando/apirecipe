@@ -2,6 +2,7 @@
 
 const models = require('../models')
 const randomInt = require('random-int')
+const configLocal = require('../config');
 
 function faker(_recordTotal) {
   const faker = require('faker')
@@ -17,7 +18,7 @@ function faker(_recordTotal) {
       active: faker.random.boolean()
      })
   }
-  
+
   return models.recipe.bulkCreate(listObjects)
     .then(function(task) {
       return _returnJson(201, messageShow, _clearObjectAll(task, true))
@@ -40,7 +41,7 @@ function getAll(req, res, next) {
   let offset = 0
   return models.recipe.findAndCountAll()
     .then((dataAll) => {
-      let limit = req.query.limit ==null?10:parseInt(req.query.limit)
+			let limit = req.query.limit ==null?configLocal.PAGESIZE:parseInt(req.query.limit)
       let page = req.query.page==null?1:parseInt(req.query.page)
       let pages = Math.ceil(dataAll.count / limit)
       offset = limit * (page - 1)
@@ -66,7 +67,7 @@ function getAll(req, res, next) {
       }
     }).catch((err) =>{
       return _returnJson(500, 'Error On Server getAll - Recipe', err)
-    }) 
+    })
 }
 
 function save(req, res) {
@@ -141,13 +142,13 @@ function remove(req, res) {
 
 function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
+  if (Id==null) {
     return _returnJson(400, 'Bad Request - Recipe', _clearObject({id:0,name:'',active:false}))
   }
   // return models.recipe.findById(Id).then((theObject) => {
   return models.recipe.findOne({
     where: {id: Id},
-    include: [ 
+    include: [
       'ingredients','categories'
       ] }).then((theObject) => {
       if (theObject!=null) {
@@ -163,7 +164,7 @@ function _getOne(Id, onfunction) {
 
 function _getOneId(_idRecipe, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (_idRecipe==null) { 
+  if (_idRecipe==null) {
     return _returnJson(400, 'Bad Request - Recipe', _clearObject({id:0,name:'',active:false}))
   }
   console.log(_idRecipe)
@@ -209,8 +210,8 @@ function _clearObject(_object, _categories) {
 }
 
 function _returnJson(_statusCode, _message, _data) {
-  return { 
-    statusCode:_statusCode, message:_message, data:_data 
+  return {
+    statusCode:_statusCode, message:_message, data:_data
   }
 }
 

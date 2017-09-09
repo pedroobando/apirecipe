@@ -2,6 +2,7 @@
 
 const models = require('../models');
 const randomInt = require('random-int');
+const configLocal = require('../config');
 
 function faker(_recordTotal) {
 	const faker = require('faker');
@@ -37,13 +38,13 @@ function getAll(req, res, next) {
   let offset = 0
   return models.ingredient.findAndCountAll()
     .then((dataAll) => {
-      let limit = req.query.limit ==null?10:parseInt(req.query.limit)
+			let limit = req.query.limit ==null?configLocal.PAGESIZE:parseInt(req.query.limit)
       let page = req.query.page==null?1:parseInt(req.query.page)
       let pages = Math.ceil(dataAll.count / limit);
       offset = limit * (page - 1);
       if (order == 'DESC' || order == 'ASC') {
         return models.ingredient.findAll({
-          attributes: ['id', 'name', 'price', 'quantity', 'active', 'measureId'],
+          attributes: ['id', 'name', 'price', 'active', 'measureId'],
           limit: limit,
           offset: offset,
           order: [['name', order]],
@@ -53,7 +54,7 @@ function getAll(req, res, next) {
         })
       } else {
         return models.ingredient.findAll({
-          attributes: ['id', 'name', 'price', 'quantity', 'active', 'measureId'],
+          attributes: ['id', 'name', 'price', 'active', 'measureId'],
           limit: limit,
           offset: offset,
           include: [ 'measure' ]
@@ -63,14 +64,13 @@ function getAll(req, res, next) {
       }
     }).catch((err) =>{
       return _returnJson(500, 'Error On Server getAll - Ingredient', err)
-    }); 
+    });
 }
 
 function save(req, res) {
   return models.ingredient.create({
     name: req.body.name,
     price: req.body.price,
-    quantity: req.body.quantity,
     active: req.body.active,
     measureId: req.body.measureId
   }).then(function(theObject) {
@@ -103,7 +103,6 @@ function update(req, res, next) {
   return models.ingredient.update({
     name: req.body.name,
     price: req.body.price,
-    quantity: req.body.quantity,
     active: req.body.active,
     measureId: req.body.measureId
   }, {
@@ -138,9 +137,9 @@ function remove(req, res) {
 
 function _getOne(Id, onfunction, _withMeasure) {
   onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
+  if (Id==null) {
     return _returnJson(400, 'Bad Request - Ingredient', _clearObject({id:0,name:'',active:false}))
-  }  
+  }
   return models.ingredient.findOne({
     where: {id: Id}, include: [ 'measure' ]}).then((theObject) => {
       // console.log(theObject);
@@ -167,11 +166,11 @@ function _clearObject(_object, _withMeasure) {
   _withMeasure=_withMeasure!=null?_withMeasure:false
   if (_withMeasure) {
     return {
-      id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId, measure: {id:_object.measure.id, name:_object.measure.name, active:_object.measure.active}
+      id: _object.id, name: _object.name, active: _object.active, price:_object.price, measureId: _object.measureId, measure: {id:_object.measure.id, name:_object.measure.name, active:_object.measure.active}
     }
   } else {
     return {
-      id: _object.id, name: _object.name, active: _object.active, price:_object.price, quantity: _object.quantity, measureId: _object.measureId
+      id: _object.id, name: _object.name, active: _object.active, price:_object.price, measureId: _object.measureId
     }
 
   }
@@ -186,8 +185,8 @@ function _errorObject(_err, onfunction) {
 }
 
 function _returnJson(_statusCode, _message, _data) {
-  return { 
-    statusCode:_statusCode, message:_message, data:_data 
+  return {
+    statusCode:_statusCode, message:_message, data:_data
   }
 }
 

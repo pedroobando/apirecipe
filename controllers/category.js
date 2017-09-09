@@ -1,6 +1,7 @@
 'use strict'
 
 const models = require('../models');
+const configLocal = require('../config');
 
 function faker(_recordTotal) {
   const faker = require('faker');
@@ -29,7 +30,7 @@ function getAll(req, res, next) {
   let offset = 0
   return models.category.findAndCountAll()
     .then((dataAll) => {
-      let limit = req.query.limit ==null?10:parseInt(req.query.limit)
+      let limit = req.query.limit ==null?configLocal.PAGESIZE:parseInt(req.query.limit)
       let page = req.query.page==null?1:parseInt(req.query.page)
       let pages = Math.ceil(dataAll.count / limit);
       offset = limit * (page - 1);
@@ -122,7 +123,7 @@ function remove(req, res) {
 
 function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
+  if (Id==null) {
     return _returnJson(400, 'Bad Request - Category', _clearObject({id:0,name:'',active:false}))
   }
   return models.category.findById(Id).then((theObject) => {
@@ -158,8 +159,8 @@ function _errorObject(_err, onfunction) {
 }
 
 function _returnJson(_statusCode, _message, _data) {
-  return { 
-    statusCode:_statusCode, message:_message, data:_data 
+  return {
+    statusCode:_statusCode, message:_message, data:_data
   }
 }
 
