@@ -19,7 +19,7 @@ function faker(_recordTotal) {
       measureId: randomInt(1, _recordTotal-1)
      })
   }
-  
+
   return models.recipeIngredient.bulkCreate(listObjects)
     .then(function(task) {
       return _returnJson(201, messageShow, _clearObjectIngredientAllFaker(task))
@@ -36,10 +36,12 @@ function getOneByRecipe(_recipeId, _ingredientId) {
   return _getOneByRecipe(_recipeId, _ingredientId, 'getOneByRecipe')
 }
 
-function save(_recipeId, _ingredientId) {
+function save(_recipeId, _ingredientId, _measureId, _quantity) {
   return models.recipeIngredient.create({
     recipeId: _recipeId,
-    ingredientId: _ingredientId
+		ingredientId: _ingredientId,
+		measureId: _measureId,
+		quantity: _quantity
   }).then(function(theObject) {
     return _getOne(theObject.id)
      // _returnJson(201,`Ingredient ${theObject.ingredientId} Add on Recipe ${theObject.recipeId}`, _g)
@@ -70,7 +72,7 @@ function remove(_recipeId, _ingredientId) {
 
 function _getOne(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
+  if (Id==null) {
     return _returnJson(400, 'Bad Request - recipeIngredient', _clearObject({id:0,name:'',active:false}))
   }
   return models.recipeIngredient.findOne({
@@ -88,7 +90,7 @@ function _getOne(Id, onfunction) {
 
 function _getAllByRecipe(Id, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (Id==null) { 
+  if (Id==null) {
     return _returnJson(400, 'Bad Request - recipeIngredient', _clearObject({id:0,name:'',active:false}))
   }
   return models.recipeIngredient.findAll({
@@ -106,7 +108,7 @@ function _getAllByRecipe(Id, onfunction) {
 
 function _getOneByRecipe(_recipeId, _ingredientId, onfunction) {
   onfunction = onfunction==null?'-':onfunction
-  if (_recipeId==null || _ingredientId==null) { 
+  if (_recipeId==null || _ingredientId==null) {
     return _returnJson(400, 'Bad Request - recipeIngredient', _clearObject({id:0,name:'',active:false}))
   }
   return models.recipeIngredient.findOne({
@@ -168,8 +170,8 @@ function _errorObject(_err, onfunction) {
 }
 
 function _returnJson(_statusCode, _message, _data) {
-  return { 
-    statusCode:_statusCode, message:_message, data:_data 
+  return {
+    statusCode:_statusCode, message:_message, data:_data
   }
 }
 
@@ -181,4 +183,4 @@ module.exports = {
   remove,
   save
 }
-  
+

@@ -1,9 +1,9 @@
 {
-  "development": {
+  "development_sql": {
     "dialect": "sqlite",
     "storage": "db/db.development.sqlite"
   },
-  "development_pg": {
+  "development": {
     "username": "pedroadm",
     "password": "123456",
     "database": "recipebookdb",

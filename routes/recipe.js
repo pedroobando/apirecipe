@@ -147,7 +147,9 @@ api.route('/:keyId/ingredient/:ingredientId')
 	.post((req, res, next) => {
 		let keyId = req.params.keyId
 		let ingredientId = req.params.ingredientId
-		recipeIngredientCtrl.save(keyId, ingredientId).then((retvalor) => {
+		let quantity = req.body.quantity
+		let measureId = req.body.measureId
+		recipeIngredientCtrl.save(keyId, ingredientId, measureId, quantity).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
