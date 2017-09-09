@@ -42,21 +42,14 @@ La base de datos debe esta previamente creada cuando se trabaja con postgres
 Esto indica las posibles categorias de la recetas
 Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
 ```
-[http://localhost:3000/category/](http://localhost:3000/category/): _Muestra todas las categorias registradas, pudiendose agregar los siguientes parametros:_ **order=**[ASC/DESC] **limit=**[numero] **page=**[nropagina]
-
-[http://localhost:3000/category/:id](http://localhost:3000/category/6): Muestra una categoria en especifica
-
-[http://localhost:3000/category/faker](http://localhost:3000/category/faker): Agrega elementos a la base datos para demostrar las categorias
-
-[http://localhost:3000/category/faker/:totalElment](http://localhost:3000/category/faker/20): Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar las categorias
-
-[post - http://localhost:3000/category]: Agrega un registro completo a la categoria.
-
-[put - http://localhost:3000/category/:id]: Actualiza el registro completo de la categoria.
-
-[patch - http://localhost:3000/category/:id/active]: Activa o desactivo el registro completo de la categoria.
-
-[delete - http://localhost:3000/category/:id]: Elimina el registro de la categoria.
+- [http://localhost:3000/category/](http://localhost:3000/category/): _Muestra todas los elementos registradas:_ paramentros: order=[ASC/DESC] limit=[int] page=[int]
+- [http://localhost:3000/category/:id](http://localhost:3000/category/6): Muestra un elemento especifico.
+- [http://localhost:3000/category/faker](http://localhost:3000/category/faker): Agrega elementos a la base datos para demostrar.
+- [http://localhost:3000/category/faker/:totalElment](http://localhost:3000/category/faker/20): Agrega la cantidad de elementos a las diferentes tabla de la base datos para demostrar.
+- [post - http://localhost:3000/category]: Agrega un registro completo.
+- [put - http://localhost:3000/category/:id]: Actualiza el registro completo.
+- [patch - http://localhost:3000/category/:id/active]: Activa o desactivo el registro completo.
+- [delete - http://localhost:3000/category/:id]: Elimina el registro.
 
 #### Tabla Category
 - id: numerico
