@@ -42,7 +42,7 @@ La base de datos debe esta previamente creada cuando se trabaja con postgres
 Esto indica las posibles categorias de la recetas
 Ejemplo: Almuerzo, Postres, Recetas Abuela, Sopas, Preferia, etc.
 ```
-[http://localhost:3000/category/](http://localhost:3000/category/): Muestra todas las categorias registradas, pudiendose agregar los siguientes parametros: **order=ASC/DESC** **limit=[numero]** **page=[nropagina]**
+[http://localhost:3000/category/](http://localhost:3000/category/): _Muestra todas las categorias registradas, pudiendose agregar los siguientes parametros:_ **order=**[ASC/DESC] **limit=**[numero] **page=**[nropagina]
 
 [http://localhost:3000/category/:id](http://localhost:3000/category/6): Muestra una categoria en especifica
 
