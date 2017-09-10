@@ -9,15 +9,16 @@ function faker(_recordTotal) {
   // var total = req.params.recordTotal==null?20:req.params.recordTotal;
   var messageShow = `${_recordTotal} Ingredient generate`;
   var listObjects = [];
-  var _vrandom = 0
+	// var _vrandom = 0
+	console.log(`ingrediente ===>>> ${_recordTotal}`)
   for (var i = 0; i < _recordTotal; i++) {
-    _vrandom = randomInt(1, 50)
+    // _vrandom = randomInt(1, 50)
     listObjects.push({
      	name: faker.commerce.productName(),
       // quantity: randomize('0', 3),
       price: faker.commerce.price(),
      	active: faker.random.boolean(),
-      measureId: randomInt(1, _recordTotal-1),
+      measureId: randomInt(1, _recordTotal-1)
      })
   }
   return models.ingredient.bulkCreate(listObjects)

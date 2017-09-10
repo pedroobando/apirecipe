@@ -37,6 +37,5 @@ module.exports = function recipef(sequelize, DataTypes) {
     // recipe.hasMany(models.recipeIngredient, {as: 'ingredients', foreignKey: 'categoriId'}),)
     // measure.hasMany(models.ingredient, {as: 'ingredient', foreignKey: 'measureId'}) //, {as: 'ingredient', foreignKey: 'id'})
   }
-
   return recipe
 }

@@ -15,7 +15,7 @@ function createDb(req, res, next) {
   		res.status(200).send({message: 'La base de datos fue creada..'})
   	})
   	.catch(err => {
-  		res.status(500).send({message: `Imposible conectar a la base de datos: [${err}]`});	
+  		res.status(500).send({message: `Imposible conectar a la base de datos: [${err}]`});
   	})
 }
 
@@ -71,7 +71,8 @@ function createDemo(_recordTotal) {
 		}
 
 		return seed().then(() => {
-			return _returnJson(200, `Los datos fueron creados:`,rowcreated)
+			// rowcreated
+			return _returnJson(200, `Los datos fueron creados:`,{})
 		}).catch( err => {
 			console.log(err);
 			return _returnJson(500, 'Error On Server createDemo - database controllers', err)
@@ -80,12 +81,12 @@ function createDemo(_recordTotal) {
 }
 
 function _returnJson(_statusCode, _message, _data) {
-  return { 
-    statusCode:_statusCode, message:_message, data:_data 
+  return {
+    statusCode:_statusCode, message:_message, data:_data
   }
 }
 
-module.exports = { 
+module.exports = {
 	createDb,
 	conectDb,
 	createDemo

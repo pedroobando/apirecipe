@@ -7,14 +7,16 @@ var measureCtrl = require('../controllers/measure')
 
 api.route('/faker')
 	.get((req, res, next) => {
-		measureCtrl.faker(req, res).then((retvalor) => {
+		let total = req.params.recordTotal==null?20:req.params.recordTotal;
+		measureCtrl.faker(total).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 
 api.route('/faker/:recordTotal')
 	.get((req, res, next) => {
-		measureCtrl.faker(req, res).then((retvalor) => {
+		let total = req.params.recordTotal==null?20:req.params.recordTotal;
+		measureCtrl.faker(total).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 			// res.status(200).json(retvalor)
 		})

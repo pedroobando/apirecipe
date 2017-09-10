@@ -16,7 +16,7 @@ function faker(_recordTotal) {
       ingredientId: randomInt(1, _recordTotal-1),
       recipeId: randomInt(1, _recordTotal-1),
       quantity: randomInt(1,6),
-      measureId: randomInt(1, _recordTotal-1)
+      measureId: randomInt(1, 10)
      })
   }
 
@@ -76,11 +76,13 @@ function _getOne(Id, onfunction) {
     return _returnJson(400, 'Bad Request - recipeIngredient', _clearObject({id:0,name:'',active:false}))
   }
   return models.recipeIngredient.findOne({
-    where: {id: Id}, include: [ 'ingredient', 'recipe' ]}).then((theObject) => {
+    // where: {id: Id}, include: [ 'ingredient', 'recipe' ]}).then((theObject) => {
+		where: {id: Id}, include: [ 'ingredient', 'measure' ]}).then((theObject) => {
+			console.log(theObject)
       if (theObject!=null) {
-        return _returnJson(200,`Add ingredient ${theObject.ingredient.name } on recipe ${theObject.recipe.name}`, _clearObject(theObject))
+        return _returnJson(200,`Add ingredient ${theObject.ingredient.name} on recipe ${theObject.recipeId}`, _clearObject(theObject))
       } else {
-        return _returnJson(404, 'NOT FOUND - recipeIngredient', {id:0, name:'', active: false, price:0, quantity:0, measureId:0, measure: {id:0, name:'', active:false}})
+        return _returnJson(404, 'NOT FOUND - recipeIngredient', {id:0, name:'', active: false, price:0, quantity:0, measureId:0})
       }
   }).catch((err) => {
     console.log(err)
@@ -155,7 +157,7 @@ function _clearObjectFaker(_object) {
 function _clearObject(_object) {
   return {
    id:_object.id,
-   recipeId: _object.recipeId, recipeName: _object.recipe.name,
+   recipeId: _object.recipeId , // recipeName: _object.recipe.name,
    ingredientId: _object.ingredientId, ingredientName: _object.ingredient.name,
    measureId: _object.measureId, measureName: _object.measure.name,
    quantity: _object.quantity

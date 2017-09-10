@@ -9,14 +9,16 @@ var recipeIngredientCtrl = require('../controllers/recipeIngredient')
 
 api.route('/faker')
 	.get((req, res, next) => {
-		recipeCtrl.faker(req, res).then((retvalor) => {
+		let total = req.params.recordTotal==null?20:req.params.recordTotal;
+		recipeCtrl.faker(total).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 
 api.route('/faker/:recordTotal')
 	.get((req, res, next) => {
-		recipeCtrl.faker(req, res).then((retvalor) => {
+		let total = req.params.recordTotal==null?20:req.params.recordTotal;
+		recipeCtrl.faker(total).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
@@ -147,8 +149,8 @@ api.route('/:keyId/ingredient/:ingredientId')
 	.post((req, res, next) => {
 		let keyId = req.params.keyId
 		let ingredientId = req.params.ingredientId
-		let quantity = req.body.quantity
-		let measureId = req.body.measureId
+		let quantity = req.body.quantity!=null?req.body.quantity:0
+		let measureId = req.body.measureId!=null?req.body.measureId:0
 		recipeIngredientCtrl.save(keyId, ingredientId, measureId, quantity).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		}).catch((err) => {

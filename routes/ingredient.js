@@ -7,14 +7,16 @@ var ingredientCtrl = require('../controllers/ingredient')
 
 api.route('/faker')
 	.get((req, res, next) => {
-		ingredientCtrl.faker(req, res).then((retvalor) => {
+		let total = req.params.recordTotal==null?20:req.params.recordTotal;
+		ingredientCtrl.faker(total).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
 
 api.route('/faker/:recordTotal')
 	.get((req, res, next) => {
-		ingredientCtrl.faker(req, res).then((retvalor) => {
+		let total = req.params.recordTotal==null?20:req.params.recordTotal;
+		ingredientCtrl.faker(total).then((retvalor) => {
 			res.status(retvalor.statusCode).json({message: retvalor.message, data: retvalor.data})
 		})
 	})
