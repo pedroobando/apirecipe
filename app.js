@@ -28,6 +28,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+// static redirect for jquery and bootstrap
+app.use('/js', express.static(__dirname + '/node_modules/popper/dist')); // redirect to bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS for jQuery
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect to bootstrap JS
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); //redirect to css bootstrap
+
+
 app.use('/', index)
 app.use('/users', users)
 app.use('/recipe', recipe)

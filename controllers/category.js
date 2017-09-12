@@ -31,9 +31,13 @@ function getAll(req, res, next) {
   return models.category.findAndCountAll()
     .then((dataAll) => {
       let limit = req.query.limit ==null?configLocal.PAGESIZE:parseInt(req.query.limit)
-      let page = req.query.page==null?1:parseInt(req.query.page)
-      let pages = Math.ceil(dataAll.count / limit);
-      offset = limit * (page - 1);
+      let activePage = req.query.page==null?1:parseInt(req.query.page)
+			let lastPage = Math.ceil(dataAll.count / limit);
+			let previousPage = (activePage-1)<=0?0:(activePage-1)
+			let firstPage = previousPage==0?0:1
+			let nextPage = lastPage==activePage?0:(activePage+1)
+			offset = limit * (activePage - 1);
+
       if (order == 'DESC' || order == 'ASC') {
         return models.category.findAll({
           attributes: ['id', 'name', 'active'],
@@ -41,7 +45,11 @@ function getAll(req, res, next) {
           offset: offset,
           order: [['name', order]]
         }).then((objectAll) => {
-          return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll))
+					return _returnJson(200,`Pagina ${activePage} de ${lastPage}`,
+						{
+							collect: _clearObjectAll(objectAll),
+							paginate:{first:firstPage,previous:previousPage,active:activePage,next:nextPage,last:lastPage, limit:limit}
+						})
         })
       } else {
         return models.category.findAll({
@@ -49,10 +57,15 @@ function getAll(req, res, next) {
           limit: limit,
           offset: offset
         }).then((objectAll) => {
-          return _returnJson(200,`Pagina ${page} de ${pages}`,_clearObjectAll(objectAll))
+					return _returnJson(200,`Pagina ${activePage} de ${lastPage}`,
+					{
+						collect: _clearObjectAll(objectAll),
+						paginate:{first:firstPage,previous:previousPage,active:activePage,next:nextPage,last:lastPage, limit:limit}
+					})
         })
       }
     }).catch((err) =>{
+			console.log(err);
       return _returnJson(500, 'Error On Server getAll - Category', err)
     });
 }
