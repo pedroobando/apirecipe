@@ -75,7 +75,7 @@ function save(req, res) {
     name: req.body.name,
     active: req.body.active
   }).then(function(theObject) {
-    return _returnJson(201,`Category name ${theObject.name}`, _clearObject(theObject))
+		return _returnJson(201,`Category name ${theObject.name}`, _clearObject(theObject))
     // return {data: _clearCategory(theObject), messageShow: `Categoria ${theObject.name} creada`}
     // {data: messageShow, message: 'Indique el numero de registros con :/category/faker/200'}
   }).catch((err) => {
@@ -102,7 +102,9 @@ function active(req, res, next) {
 }
 
 function update(req, res, next) {
-  var IdCat = req.params.categoryId;
+	// var IdCat = req.body.categoryId;
+	var IdCat = req.body.id;
+	// console.log(IdCat);
   return models.category.update({
     name: req.body.name,
     active: req.body.active

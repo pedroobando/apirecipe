@@ -42,16 +42,7 @@ api.route('/:categoryId')
 				console.log(err)
 			})
 	})
-	.put((req, res, next) => {
-			categoryCtrl.update(req, res).then((retvalor) => {
-				// console.log(retvalor);
-				if (retvalor != null) {
-					res.status(200).json(retvalor);
-				} else {
-					res.status(500).json(retvalor);
-				}
-			})
-	})
+
 	.delete((req, res, next) => {
 		categoryCtrl.remove(req, res).then((retvalor) => {
 			if (retvalor != null) {
@@ -81,9 +72,29 @@ api.route('/')
 	})
 	.post((req, res, next) => {
 			categoryCtrl.save(req, res).then((retvalor) => {
-				res.status(200).json(retvalor)
+				// console.log(retvalor.statusCode);
+				if (retvalor.statusCode==201) {
+					res.redirect('/category?order=asc')
+				}
+				// res.status(200).json(retvalor)
 		}).catch((err) => {
 			res.status(400).json(retvalor)
+		})
+	})
+
+api.route('/edit')
+	.post((req, res, next) => {
+		// console.log(req.body.id);
+		categoryCtrl.update(req, res).then((retvalor) => {
+			if (retvalor.statusCode==200) {
+				res.redirect('/category?order=asc')
+			}
+			// console.log(retvalor);
+			// if (retvalor != null) {
+			// 	res.status(200).json(retvalor);
+			// } else {
+			// 	res.status(500).json(retvalor);
+			// }
 		})
 	})
 
